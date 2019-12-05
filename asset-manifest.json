@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/reactive-garden/static/css/main.e080dc4c.chunk.css",
+    "main.js": "/reactive-garden/static/js/main.3a7519e6.chunk.js",
+    "main.js.map": "/reactive-garden/static/js/main.3a7519e6.chunk.js.map",
+    "runtime-main.js": "/reactive-garden/static/js/runtime-main.98d00c3d.js",
+    "runtime-main.js.map": "/reactive-garden/static/js/runtime-main.98d00c3d.js.map",
+    "static/js/2.303a6048.chunk.js": "/reactive-garden/static/js/2.303a6048.chunk.js",
+    "static/js/2.303a6048.chunk.js.map": "/reactive-garden/static/js/2.303a6048.chunk.js.map",
+    "index.html": "/reactive-garden/index.html",
+    "precache-manifest.2edd677e7fa526e8738fc266a4d05531.js": "/reactive-garden/precache-manifest.2edd677e7fa526e8738fc266a4d05531.js",
+    "service-worker.js": "/reactive-garden/service-worker.js",
+    "static/css/main.e080dc4c.chunk.css.map": "/reactive-garden/static/css/main.e080dc4c.chunk.css.map",
+    "static/js/2.303a6048.chunk.js.LICENSE": "/reactive-garden/static/js/2.303a6048.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.98d00c3d.js",
+    "static/js/2.303a6048.chunk.js",
+    "static/css/main.e080dc4c.chunk.css",
+    "static/js/main.3a7519e6.chunk.js"
+  ]
+}
