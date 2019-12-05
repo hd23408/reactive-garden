@@ -31,5 +31,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "homepage": "https://hd23408.github.io/reactive-garden/",
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
   }
 }
