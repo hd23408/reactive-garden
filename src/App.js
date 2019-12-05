@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import LSystem from './LSystem'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  
+  state = {
+    characters: []
+  }
+  
+  removeCharacter = index => {
+    const { characters } = this.state
+  
+    this.setState({
+      characters: characters.filter((character, i) => {
+        return i !== index
+      }),
+    })
+  }
+
+  handleSubmit = character => {
+    this.setState({ characters: [...this.state.characters, character] })
+  }
+
+  render() {
+    const { characters } = this.state
+    
+    return (
+      // Sierpinski triangle:
+      // <LSystem angle="120" step="7" axiom="F-G-G" replacements="(F = F-G+F+G-F), (G = GG)" loops="6"/>
+      
+      // Fractal plant:
+      // <LSystem angle="25" step="3" axiom="X" replacements="(X = F+[[X]-X]-F[-FX]+X), (F = FF)" loops="6"/>
+      
+      // Koch curve:
+      // <LSystem angle="90" step="10" axiom="F" replacements="(F = F+F-F-F+F)" loops="6"/>
+      
+      // Dragon curve:
+      <LSystem angle="90" step="4" axiom="FX" replacements="(X = X+YF+), (Y = -FX-Y)" loops="12"/>
+      
+    )
+    
+
+  }
 }
-
-export default App;
+export default App
