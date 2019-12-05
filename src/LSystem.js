@@ -64,8 +64,8 @@ class LSystem extends Component {
   
   runTurtle() {
     var currentAngle = 90;
-    var currentX = 300;
-    var currentY = 300;
+    var currentX = 150;
+    var currentY = 600;
     var locations = Immutable.Stack();
     
     const angle = Number(this.props.angle);
