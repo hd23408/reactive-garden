@@ -44,7 +44,7 @@ class LSystem extends Component {
     for(const token of inputString) {
       var matched = false;
       for(const replacement of replacements) {
-        if (replacement.findString == token) {
+        if (replacement.findString === token) {
           matched = true;
           outputString += replacement.newString;
           break;
@@ -74,7 +74,7 @@ class LSystem extends Component {
     
     // For each character in the string
     for(const c of rules) {
-      if (c == 'F' || c == 'G') {
+      if (c === 'F' || c === 'G') {
         // If it's an "F", add a line and move the turtle
         const point1 = new Immutable.Map({x: currentX, y: currentY,});
         currentX = currentX + step * Math.cos(this.toRadians(currentAngle));
@@ -86,16 +86,16 @@ class LSystem extends Component {
             lines: prevState.lines.push(Immutable.List([point1, point2])),
           };
         });
-      } else if (c == '+') {
+      } else if (c === '+') {
         // If it's a turn, change the angle
         currentAngle += angle; // turn left
-      } else if (c == '-') {
+      } else if (c === '-') {
         currentAngle -= angle; // turn right)
-      } else if (c == '[') {
+      } else if (c === '[') {
         // Push current value of X,Y from locations
         const currPos = {X: currentX, Y: currentY, A: currentAngle};
         locations = locations.push(currPos);
-      } else if (c == ']') {
+      } else if (c === ']') {
         // Reset current value of X,Y to that popped from locations
         const oldPos = locations.first();
         locations = locations.pop();
@@ -103,7 +103,7 @@ class LSystem extends Component {
         currentY = oldPos.Y;
         currentAngle = oldPos.A;
         //alert("now at " + currentX)
-      } else if (c == 'X' || c == 'Y') {
+      } else if (c === 'X' || c === 'Y') {
         // For completeness; no-op
       }
     }
