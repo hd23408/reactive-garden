@@ -6,25 +6,34 @@ import TurtleLine from './TurtleLine'
 class LSystem extends Component {
   constructor(props) {
     /*
-      Expected props:
+      The propery handed in should be an object called "rule", with
+      the following keys:
         axiom: The initial string
         numloops: How many times to run the replacement algorithm
         replacements: One or more comma-separated replacement rules, of the format "X = Y" 
         step: How many pixels to draw each line
         angle: The angle to turn when turning
+        startX: The X position at which to start drawing
+        startY: The Y position at which to start drawing
     */
     super(props);
     
-    // An empty list of lines that will be filled in when drawing
     this.state = {
+      // An empty list of lines that will be filled in when drawing
       lines: new Immutable.List(),
+      
+      // The rules for drawing
+      rule: this.props.rule,
     }
 
   }
   
   generateRules() {
-    var rules = this.props.axiom;
-    for (var i = 0; i < this.props.loops; i++) {
+    
+    const currentRule = this.props.rule;
+    
+    var rules = currentRule.axiom;
+    for (var i = 0; i < currentRule.loops; i++) {
       rules = this.expandRules(rules);
     }
     return rules;
@@ -33,8 +42,9 @@ class LSystem extends Component {
   expandRules(inputString) {
     var outputString = '';
     var replacements = [];
+    const currentRule = this.props.rule;
     
-    for(const replacement of this.props.replacements.split(',')) {
+    for(const replacement of currentRule.replacements.split(',')) {
       const rule = replacement.split('=');
       const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
       
@@ -63,13 +73,16 @@ class LSystem extends Component {
   }
   
   runTurtle() {
+    
+    const currentRule = this.props.rule;
+    
     var currentAngle = 90;
-    var currentX = 150;
-    var currentY = 600;
+    var currentX = Number(currentRule.startX);
+    var currentY = Number(currentRule.startY);
     var locations = Immutable.Stack();
     
-    const angle = Number(this.props.angle);
-    const step = Number(this.props.step);
+    const angle = Number(currentRule.angle);
+    const step = Number(currentRule.step);
     const rules = this.generateRules();
     
     // For each character in the string
@@ -111,13 +124,31 @@ class LSystem extends Component {
   
   
   componentDidMount() {
+    // The first time this loads, run the
+    // turtle to draw the needed lines.
     this.runTurtle();
+  }
+  
+  componentDidUpdate(previousProps, previousState) {
+    // Because componentDidUpdate will get called on
+    // any update of state (including, for instance,
+    // drawing a new line), only reset and redraw
+    // if the state being changed is the rule.
+    // (This feels really hacky; TODO: Rethink this.)
+    if (previousProps.rule !== this.props.rule) {
+      this.setState(prevState => {
+        return {
+          lines: new Immutable.List(),
+        };
+      });
+      this.runTurtle();
+    }
   }
   
   render() {
     const lines = this.state.lines;
     return (
-      <svg class="drawArea">
+      <svg className="drawArea">
       {lines.map((line, index) => (
         <TurtleLine key={index} line={line} />
       ))}

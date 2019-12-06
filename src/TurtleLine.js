@@ -8,7 +8,7 @@ class TurtleLine extends Component {
       .map(p => p.get('x') + ' ' + p.get('y'))
       .join(" L ");
 
-    return <path class='path' stroke='black' d={pathData} />;
+    return <path className='path' stroke='black' d={pathData} />;
   }
 }
 

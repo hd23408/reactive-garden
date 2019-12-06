@@ -1,26 +1,51 @@
 import React, { Component } from 'react'
 import LSystem from './LSystem'
+import Form from './Form'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+  
+    
+    this.initialState = {
+      
+      // Sierpinski triangle
+      rule: {
+        angle: '120',
+        step: '7',
+        axiom: 'F-G-G',
+        replacements: '(F = F-G+F+G-F), (G = GG)',
+        loops: '6',
+        startX: '10',
+        startY: '600'
+      }
+      
+
+          
+    }
+  
+    this.state = this.initialState
+  }
+
+  handleSubmit = newRule => {
+    
+    this.setState({ rule: newRule });
+  }
+
   
   render() {
+    const { rule } = this.state
     
     return (
-      // Sierpinski triangle:
-      // <LSystem angle="120" step="7" axiom="F-G-G" replacements="(F = F-G+F+G-F), (G = GG)" loops="6"/>
-      
-      // Fractal plant:
-      <LSystem angle="25" step="3" axiom="X" replacements="(X = F+[[X]-X]-F[-FX]+X), (F = FF)" loops="6"/>
-      
-      // Koch curve:
-      // <LSystem angle="90" step="10" axiom="F" replacements="(F = F+F-F-F+F)" loops="6"/>
-      
-      // Dragon curve:
-      // <LSystem angle="90" step="4" axiom="FX" replacements="(X = X+YF+), (Y = -FX-Y)" loops="12"/>
-      
+    <div>
+      <div className="container">
+        <Form handleSubmit={this.handleSubmit} rule={rule}/>
+        <LSystem rule={rule} />
+      </div>
+
+    </div>
     )
     
-
   }
 }
 export default App
