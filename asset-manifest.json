@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/reactive-garden/static/css/main.616b5b35.chunk.css",
-    "main.js": "/reactive-garden/static/js/main.48df728c.chunk.js",
-    "main.js.map": "/reactive-garden/static/js/main.48df728c.chunk.js.map",
+    "main.css": "/reactive-garden/static/css/main.f822a81c.chunk.css",
+    "main.js": "/reactive-garden/static/js/main.9a3923c1.chunk.js",
+    "main.js.map": "/reactive-garden/static/js/main.9a3923c1.chunk.js.map",
     "runtime-main.js": "/reactive-garden/static/js/runtime-main.98d00c3d.js",
     "runtime-main.js.map": "/reactive-garden/static/js/runtime-main.98d00c3d.js.map",
-    "static/js/2.15df396f.chunk.js": "/reactive-garden/static/js/2.15df396f.chunk.js",
-    "static/js/2.15df396f.chunk.js.map": "/reactive-garden/static/js/2.15df396f.chunk.js.map",
+    "static/js/2.4806f136.chunk.js": "/reactive-garden/static/js/2.4806f136.chunk.js",
+    "static/js/2.4806f136.chunk.js.map": "/reactive-garden/static/js/2.4806f136.chunk.js.map",
     "index.html": "/reactive-garden/index.html",
-    "precache-manifest.85f5e0c03a234926243efd2297ee5882.js": "/reactive-garden/precache-manifest.85f5e0c03a234926243efd2297ee5882.js",
+    "precache-manifest.89e79dad4c5e32473458416d3502ad73.js": "/reactive-garden/precache-manifest.89e79dad4c5e32473458416d3502ad73.js",
     "service-worker.js": "/reactive-garden/service-worker.js",
-    "static/css/main.616b5b35.chunk.css.map": "/reactive-garden/static/css/main.616b5b35.chunk.css.map",
-    "static/js/2.15df396f.chunk.js.LICENSE": "/reactive-garden/static/js/2.15df396f.chunk.js.LICENSE"
+    "static/css/main.f822a81c.chunk.css.map": "/reactive-garden/static/css/main.f822a81c.chunk.css.map",
+    "static/js/2.4806f136.chunk.js.LICENSE": "/reactive-garden/static/js/2.4806f136.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.98d00c3d.js",
-    "static/js/2.15df396f.chunk.js",
-    "static/css/main.616b5b35.chunk.css",
-    "static/js/main.48df728c.chunk.js"
+    "static/js/2.4806f136.chunk.js",
+    "static/css/main.f822a81c.chunk.css",
+    "static/js/main.9a3923c1.chunk.js"
   ]
 }
