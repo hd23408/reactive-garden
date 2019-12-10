@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Immutable from 'immutable'
-import TurtleLine from './TurtleLine'
-
+import TurtleShape from './TurtleShape'
 
 class LSystem extends Component {
   constructor(props) {
@@ -18,28 +17,65 @@ class LSystem extends Component {
     */
     super(props);
     
+    /*
+      In this component's state, we'll keep track of the following:
+        turtleInstructions: A list of the expanded instructions (one entry for
+            each loop through the rewriting process)
+        turtleLines: A list of structures which contain the following:
+            visibility: The class names for the wrapping svg object 
+            lines: A list of the actual TurtleLine components that will get rendered
+        needsToGrow: For complicated React reasons, a boolean indicating whether or not
+            we've gone through the "growing" render process for this particular L-System
+    */
     this.state = {
-      // An empty list of lines that will be filled in when drawing
-      lines: new Immutable.List(),
-      
-      // The rules for drawing
-      rule: this.props.rule,
+      turtleInstructions: new Immutable.List(),
+      turtleLines: new Immutable.List(),
+      needsToGrow: false,
     }
 
   }
   
-  generateRules() {
+  /*
+    The main function that will generate the turtle drawing instructions
+    for each iteration, and populate this.state accordingly.
+  */
+  drawLSystem() {
+    const currentRule = this.props.rule;  // The information about how to build the system
+    var instructions = currentRule.axiom; // The starting point
     
-    const currentRule = this.props.rule;
-    
-    var rules = currentRule.axiom;
+    // Loop N times, and for each loop, expand the instructions
+    // and create the relevant TurtleLines
     for (var i = 0; i < currentRule.loops; i++) {
-      rules = this.expandRules(rules);
+      const turtleString = this.expandInstructions(instructions);
+      const turtleLines = this.runTurtle(turtleString);
+        
+      // Add this loop's instructions and TurtleLines to our state
+      this.setState(prevState => {
+        return {
+          turtleInstructions: prevState.turtleInstructions.push(turtleString),
+          turtleLines: prevState.turtleLines.push(turtleLines),
+        };
+      }); 
+      
+      // Reset the instructions to the current turtle string in preparation for the next loop
+      instructions = turtleString;
     }
-    return rules;
+    
+    // After we're done updating state with all of the appropriate turtle lines,
+    // indicate to ourselves that we need to grow. (i.e. to show the actual rendering of the lines)
+    this.setState(prevState => {
+        return {
+          needsToGrow: true,
+        };
+    });
   }
   
-  expandRules(inputString) {
+  
+  /* 
+    Expansion function for a given "loop" of instruction generation
+  */
+  expandInstructions(inputString) {
+    
     var outputString = '';
     var replacements = [];
     const currentRule = this.props.rule;
@@ -47,7 +83,6 @@ class LSystem extends Component {
     for(const replacement of currentRule.replacements.split(',')) {
       const rule = replacement.split('=');
       const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
-      
       replacements.push(subst);
     }
     
@@ -60,20 +95,27 @@ class LSystem extends Component {
           break;
         }  
       }
-      
       if (! matched) outputString += token;
     }
-    
-      
     return outputString;
   }
   
-  toRadians (angle) {
+  /*
+    Utility function for converting to radians to make the math easier
+  */
+  toRadians(angle) {
     return angle * (Math.PI / 180);
   }
   
-  runTurtle() {
-    
+  /*
+    Function to send the turtle along the path of following a particular
+    instruction set and drawing out the lines necessary for it; note that
+    these lines are hidden to begin with, and need to go through the "grow"
+    process in order to be visible
+  */
+  runTurtle(item) {
+
+    const instructions = item;
     const currentRule = this.props.rule;
     
     var currentAngle = 90;
@@ -81,24 +123,27 @@ class LSystem extends Component {
     var currentY = Number(currentRule.startY);
     var locations = Immutable.Stack();
     
+    // This structure is what we'll ultimately add to this.state.turtleLines;
+    // note that it's hidden by default
+    var turtleLines = {
+      visibility: "hidden drawArea",
+      lines: Immutable.List(),
+    };
+    
     const angle = Number(currentRule.angle);
     const step = Number(currentRule.step);
-    const rules = this.generateRules();
     
     // For each character in the string
-    for(const c of rules) {
+    for(const c of instructions) {
       if (c === 'F' || c === 'G') {
-        // If it's an "F", add a line and move the turtle
+        // If it's an "F" or a "G", add a line and move the turtle
         const point1 = new Immutable.Map({x: currentX, y: currentY,});
         currentX = currentX + step * Math.cos(this.toRadians(currentAngle));
         currentY = currentY - step * Math.sin(this.toRadians(currentAngle));
         const point2 = new Immutable.Map({x: currentX, y: currentY,});
         
-        this.setState(prevState => {
-          return {
-            lines: prevState.lines.push(Immutable.List([point1, point2])),
-          };
-        });
+        turtleLines.lines = turtleLines.lines.push(Immutable.List([point1, point2]));
+        
       } else if (c === '+') {
         // If it's a turn, change the angle
         currentAngle += angle; // turn left
@@ -115,44 +160,120 @@ class LSystem extends Component {
         currentX = oldPos.X;
         currentY = oldPos.Y;
         currentAngle = oldPos.A;
-        //alert("now at " + currentX)
       } else if (c === 'X' || c === 'Y') {
         // For completeness; no-op
       }
     }
+    return turtleLines;
   }
   
   
-  componentDidMount() {
-    // The first time this loads, run the
-    // turtle to draw the needed lines.
-    this.runTurtle();
+  /*
+    Utility method for sleeping (ugh javascript)
+  */
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
   
-  componentDidUpdate(previousProps, previousState) {
-    // Because componentDidUpdate will get called on
-    // any update of state (including, for instance,
-    // drawing a new line), only reset and redraw
-    // if the state being changed is the rule.
-    // (This feels really hacky; TODO: Rethink this.)
-    if (previousProps.rule !== this.props.rule) {
+  /*
+    Function that will gradually show each of the sets of lines (the
+    svg objects) such that the system appears to "grow"
+  */
+  async grow(){
+    const turtleLines = this.state.turtleLines;
+    const currentRule = this.props.rule;
+    
+    this.setState(prevState => {
+        return {
+          needsToGrow: false,
+          inGrowth: true,
+        };
+    });
+    
+    for (var i = 0; i < currentRule.loops; i++) {  
+      if (i !== 0) {
+        turtleLines.get(i-1).visibility = "hidden drawArea";
+      }
+      turtleLines.get(i).visibility = "drawArea";
       this.setState(prevState => {
         return {
-          lines: new Immutable.List(),
+          turtleLines: turtleLines,
         };
-      });
-      this.runTurtle();
+      }); 
+      await this.sleep(250);
+    }
+    
+  }
+  
+
+  // ----------- OVERRIDING COMPONENT METHODS BELOW HERE ----------------
+  
+  // Before it first loads, run the
+  // turtle to draw the needed lines.
+  componentWillMount() {
+    this.drawLSystem();
+  }
+  
+  // And, after everything is drawn and
+  // loaded, "grow" the system
+  componentDidMount() {
+    this.grow();
+  }
+  
+  
+  // We only want to actually update the component under three conditions:
+  // 1) If the rule has changed
+  // 2) If we need to "grow" the system
+  // 3) If we're actually in the process of growing the system
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.rule !== this.props.rule || this.state.needsToGrow || this.state.inGrowth;
+  }
+  
+  
+  // Every time an update happens, check to see if 
+  // our parent has changed our rules and, if so, recreate
+  // the lines
+  componentDidUpdate(previousProps, previousState) {
+
+    // Because componentDidUpdate will get called on
+    // any update of state (including, for instance,
+    // adding a new line), only reset and redraw
+    // if the thing being changed is the rule. (Note
+    // that because we've overridden shouldComponentUpdate we 
+    // should never get here in the first place, but we're
+    // being safe.)
+    if (previousProps.rule !== this.props.rule) {
+      // The rule has been changed;
+      // reset our state. 
+      this.setState(prevState => {
+        return {
+          turtleInstructions: Immutable.List(),
+          turtleLines: Immutable.List(),
+          needsToGrow: false,
+          inGrowth: false,
+        };
+      }); 
+      this.drawLSystem();
+    } else if (this.state.needsToGrow) {
+      // We need to grow! Call the "grow"
+      // function.
+      this.grow();
     }
   }
   
+
+  /*
+   The actual render, finally!
+ */
   render() {
-    const lines = this.state.lines;
+    const turtleLines = this.state.turtleLines;
+    
     return (
-      <svg className="drawArea">
-      {lines.map((line, index) => (
-        <TurtleLine key={index} line={line} />
+      <div>
+      {turtleLines.map((turtle, i) => (
+        <TurtleShape visibility={turtle.visibility} turtleLines={turtle.lines} />
       ))}
-    </svg>
+    </div>
     );
   }
 }

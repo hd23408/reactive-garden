@@ -6,9 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props)
   
-    
     this.initialState = {
-      
       // Sierpinski triangle
       rule: {
         angle: '120',
@@ -19,16 +17,12 @@ class App extends Component {
         startX: '10',
         startY: '600'
       }
-      
-
-          
     }
   
     this.state = this.initialState
   }
 
   handleSubmit = newRule => {
-    
     this.setState({ rule: newRule });
   }
 
