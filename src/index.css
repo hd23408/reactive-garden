@@ -7,10 +7,11 @@ body {
   width: 500px;
   height: 600px;
   border: 1px solid black;
-  margin-left: 100px;
+  margin-left: 25px;
   float: left;
   cursor: crosshair;
   position: absolute;
+  top: 50px;
 }
 
 .hidden { 
@@ -23,6 +24,7 @@ body {
   padding: 15px;
   margin-right: 100px;
   float: right;
+  
 }
 
 form input {
