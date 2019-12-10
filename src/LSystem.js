@@ -14,6 +14,7 @@ class LSystem extends Component {
         angle: The angle to turn when turning
         startX: The X position at which to start drawing
         startY: The Y position at which to start drawing
+        grow: Boolean saying whether to draw the growing process or jump straight to the final design
     */
     super(props);
     
@@ -28,8 +29,8 @@ class LSystem extends Component {
             we've gone through the "growing" render process for this particular L-System
     */
     this.state = {
-      turtleInstructions: new Immutable.List(),
-      turtleLines: new Immutable.List(),
+      turtleInstructions: Immutable.List(),
+      turtleLines: Immutable.List(),
       needsToGrow: false,
     }
 
@@ -42,20 +43,27 @@ class LSystem extends Component {
   drawLSystem() {
     const currentRule = this.props.rule;  // The information about how to build the system
     var instructions = currentRule.axiom; // The starting point
+    var addGrowSteps = true; // Whether or not to add all of the "steps" to show "growth"
+    if ('grow' in this.props) addGrowSteps = (this.props.grow.toLowerCase() === 'true');
     
     // Loop N times, and for each loop, expand the instructions
     // and create the relevant TurtleLines
     for (var i = 0; i < currentRule.loops; i++) {
       const turtleString = this.expandInstructions(instructions);
       const turtleLines = this.runTurtle(turtleString);
-        
-      // Add this loop's instructions and TurtleLines to our state
-      this.setState(prevState => {
-        return {
-          turtleInstructions: prevState.turtleInstructions.push(turtleString),
-          turtleLines: prevState.turtleLines.push(turtleLines),
-        };
-      }); 
+      
+      // If we're supposed to add each of the growth "steps"
+      // or if this is the last step, add it to the state
+      var add = (addGrowSteps || i === currentRule.loops - 1);
+      if (add) {
+        // Add this loop's instructions and TurtleLines to our state
+        this.setState(prevState => {
+          return {
+            turtleInstructions: prevState.turtleInstructions.push(turtleString),
+            turtleLines: prevState.turtleLines.push(turtleLines),
+          };
+        });
+      }; 
       
       // Reset the instructions to the current turtle string in preparation for the next loop
       instructions = turtleString;
@@ -181,7 +189,6 @@ class LSystem extends Component {
   */
   async grow(){
     const turtleLines = this.state.turtleLines;
-    const currentRule = this.props.rule;
     
     this.setState(prevState => {
         return {
@@ -190,7 +197,8 @@ class LSystem extends Component {
         };
     });
     
-    for (var i = 0; i < currentRule.loops; i++) {  
+    for (var i = 0; i < turtleLines.size; i++) {  
+      
       if (i !== 0) {
         turtleLines.get(i-1).visibility = "hidden drawArea";
       }
@@ -264,7 +272,7 @@ class LSystem extends Component {
 
   /*
    The actual render, finally!
- */
+  */
   render() {
     const turtleLines = this.state.turtleLines;
     

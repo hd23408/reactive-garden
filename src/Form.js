@@ -46,6 +46,15 @@ class Form extends Component {
         To run an L-System, enter the required information and press "submit". Some notes:
         <ul>
         <li>The "Replacement Rule" should consist one or more comma-separated replacement rules, of the format "( X = Y )" -- see examples, below</li>
+        <li>The rules use the following symbols:
+          <ul>
+          <li>'F' and 'G' each draw a single line segment</li>
+          <li>'+' and '-' rotate the turtle to the left and right respectively (by the defined angle)</li>
+          <li>'[' and ']' store and recall a particular XY coordinate for the turtle (i.e. allow the turtle to return to a previous location)</li>
+          <li>'X' and 'Y' are no-ops and are used as placeholders in the rules</li>
+          <li>All other characters are ignored</li>
+          </ul>
+        </li>
         <li>PLEASE don't use more than 6 recursions!</li>
         <li>If you're having trouble seeing the entire resulting drawing, try reducing the "Step Size" to make it smaller</li>
         <li>NOTE: INPUTS ARE NOT CURRENTLY BEING SANITIZED! If you get an error, probably it's a parsing issue. Check your rules in particular.</li>
@@ -145,6 +154,18 @@ class Form extends Component {
           <li>Step Size: 3</li>
           <li>Loops: 6</li>
           <li>Initial X: 200</li>
+          <li>Initial Y: 600</li>
+        </ul>
+      </li>
+      
+      <li>Binary tree:
+        <ul>
+          <li>Axiom: F</li>
+          <li>Replacement Rules: (G = GG), (F = G[+F]-F)</li>
+          <li>Angle: 25</li>
+          <li>Step Size: 4</li>
+          <li>Loops: 7</li>
+          <li>Initial X: 300</li>
           <li>Initial Y: 600</li>
         </ul>
       </li>
