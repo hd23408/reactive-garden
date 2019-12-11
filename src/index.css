@@ -48,9 +48,9 @@ form label {
 .path {
   fill: none;
   stroke-width: 2px;
-  stroke: black;
-  stroke-linejoin: round;
+  stroke-linejoin: crop;
   stroke-linecap: round;
+  
 }
 
 .drawing {

@@ -42,7 +42,7 @@ class Form extends Component {
       
       <div className="instructions">
       <h3>Instructions</h3>
-      <p>
+      <div>
         To run an L-System, enter the required information and press "submit". Some notes:
         <ul>
         <li>The "Replacement Rule" should consist one or more comma-separated replacement rules, of the format "( X = Y )" -- see examples, below</li>
@@ -59,7 +59,7 @@ class Form extends Component {
         <li>If you're having trouble seeing the entire resulting drawing, try reducing the "Step Size" to make it smaller</li>
         <li>NOTE: INPUTS ARE NOT CURRENTLY BEING SANITIZED! If you get an error, probably it's a parsing issue. Check your rules in particular.</li>
         </ul>
-      </p>
+      </div>
       
       <hr />
       
@@ -132,7 +132,7 @@ class Form extends Component {
       <hr />
       
       <h3>Examples</h3>
-      <p>
+      <div>
       <ul>
       <li>Sierpinski triangle:
         <ul>
@@ -197,7 +197,7 @@ class Form extends Component {
       </li>
       
       </ul>
-      </p>
+      </div>
       </div>
     );
   }

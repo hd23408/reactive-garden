@@ -6,12 +6,11 @@ class TurtleShape extends Component {
   render() {
     const turtleLines = this.props.turtleLines;
     const visibility = this.props.visibility;
-    
     return (
       <div>
       <svg className={visibility}>
-        {turtleLines.map((line, index) => (
-          <TurtleLine key={index} line={line} />
+        {turtleLines.map((lines, index) => (
+          <TurtleLine key={index} line={lines.get("line")} color={lines.get("color")} />
         ))}
       </svg>
       </div>

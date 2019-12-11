@@ -60,7 +60,7 @@ class Garden extends Component {
     <div>
       <div className="container">
       {organisms.map((rule, i) => (
-        <LSystem rule={rule} grow="0" />
+        <LSystem rule={rule} grow="0" colorful="true"/>
       ))}
       </div>
 

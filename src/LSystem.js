@@ -24,7 +24,9 @@ class LSystem extends Component {
             each loop through the rewriting process)
         turtleLines: A list of structures which contain the following:
             visibility: The class names for the wrapping svg object 
-            lines: A list of the actual TurtleLine components that will get rendered
+            lines: A list of the actual TurtleLine components that will get rendered --
+                  these are (somewhat confusingly) a Map with keys "line" (X/Y coordinates as a List)
+                  and "color" (a color for that particular line)
         needsToGrow: For complicated React reasons, a boolean indicating whether or not
             we've gone through the "growing" render process for this particular L-System
     */
@@ -50,12 +52,12 @@ class LSystem extends Component {
     // and create the relevant TurtleLines
     for (var i = 0; i < currentRule.loops; i++) {
       const turtleString = this.expandInstructions(instructions);
-      const turtleLines = this.runTurtle(turtleString);
       
       // If we're supposed to add each of the growth "steps"
-      // or if this is the last step, add it to the state
+      // (or if this is the last step), add it to the state
       var add = (addGrowSteps || i === currentRule.loops - 1);
       if (add) {
+        const turtleLines = this.runTurtle(turtleString);
         // Add this loop's instructions and TurtleLines to our state
         this.setState(prevState => {
           return {
@@ -125,6 +127,7 @@ class LSystem extends Component {
 
     const instructions = item;
     const currentRule = this.props.rule;
+    const colorful = ('colorful' in this.props && this.props.colorful.toLowerCase() === 'true');
     
     var currentAngle = 90;
     var currentX = Number(currentRule.startX);
@@ -141,8 +144,21 @@ class LSystem extends Component {
     const angle = Number(currentRule.angle);
     const step = Number(currentRule.step);
     
+    var colorSeed = 1;
+    var newColor = "#000000";
+    
     // For each character in the string
     for(const c of instructions) {
+      
+      // If we want this to be 'colorful' then just for variety, 
+      // let's add a random color (in the blue/green
+      // colorspace) to each line we draw.
+      // TODO: Make this ombre as it recurses or something clever like that
+      if (colorful) {
+        newColor = "#00" + String(colorSeed).padStart(4, '0');
+        colorSeed = Math.floor(Math.random() * Math.floor(9999));
+      }
+      
       if (c === 'F' || c === 'G') {
         // If it's an "F" or a "G", add a line and move the turtle
         const point1 = new Immutable.Map({x: currentX, y: currentY,});
@@ -150,7 +166,11 @@ class LSystem extends Component {
         currentY = currentY - step * Math.sin(this.toRadians(currentAngle));
         const point2 = new Immutable.Map({x: currentX, y: currentY,});
         
-        turtleLines.lines = turtleLines.lines.push(Immutable.List([point1, point2]));
+        turtleLines.lines = turtleLines.lines.push(Immutable.Map({
+          line: Immutable.List([point1, point2]), 
+          color: newColor,
+        }));
+        
         
       } else if (c === '+') {
         // If it's a turn, change the angle
@@ -218,7 +238,9 @@ class LSystem extends Component {
   
   // Before it first loads, run the
   // turtle to draw the needed lines.
-  componentWillMount() {
+  // (This method is deprecated, but it's what we need -- 
+  // sorry, React developers)
+  UNSAFE_componentWillMount() {
     this.drawLSystem();
   }
   
@@ -279,7 +301,7 @@ class LSystem extends Component {
     return (
       <div>
       {turtleLines.map((turtle, i) => (
-        <TurtleShape visibility={turtle.visibility} turtleLines={turtle.lines} />
+        <TurtleShape key={i} visibility={turtle.visibility} turtleLines={turtle.lines} />
       ))}
     </div>
     );
