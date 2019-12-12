@@ -46,12 +46,26 @@ class LSystem extends Component {
     const currentRule = this.props.rule;  // The information about how to build the system
     var instructions = currentRule.axiom; // The starting point
     var addGrowSteps = true; // Whether or not to add all of the "steps" to show "growth"
-    if ('grow' in this.props) addGrowSteps = (this.props.grow.toLowerCase() === 'true');
+    var replacements = []; // The actual replacement rules to perform (a list of objects  
+                           // with "findString" and "newString" keys)
+                           
+    if ('grow' in this.props) addGrowSteps = 
+      (this.props.grow.toLowerCase() === 'true'); // Whether or not to draw the "growth" of the organism
+      
+    const debug = false; // Will output to console.log with replacement string information
+    
+    // Parse the replacement instructions
+        
+    for(const replacement of currentRule.replacements.split(',')) {
+      const rule = replacement.split('=');
+      const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
+      replacements.push(subst);
+    }
     
     // Loop N times, and for each loop, expand the instructions
     // and create the relevant TurtleLines
     for (var i = 0; i < currentRule.loops; i++) {
-      const turtleString = this.expandInstructions(instructions);
+      const turtleString = this.expandInstructions(instructions, replacements, i, debug);
       
       // If we're supposed to add each of the growth "steps"
       // (or if this is the last step), add it to the state
@@ -84,31 +98,52 @@ class LSystem extends Component {
   /* 
     Expansion function for a given "loop" of instruction generation
   */
-  expandInstructions(inputString) {
+  expandInstructions(inputString, replacements, generation, debug) {
     
     var outputString = '';
-    var replacements = [];
-    const currentRule = this.props.rule;
     
-    for(const replacement of currentRule.replacements.split(',')) {
-      const rule = replacement.split('=');
-      const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
-      replacements.push(subst);
+    if (debug) {
+      console.log("----------------");
+      console.log(" Generation " + generation);
+      console.log("Starting with: " + inputString);
     }
     
     for(const token of inputString) {
       var matched = false;
-      for(const replacement of replacements) {
-        if (replacement.findString === token) {
-          matched = true;
-          outputString += replacement.newString;
-          break;
-        }  
+      
+      if (token === '!') {
+        // If an exclamation point is in the input string, it needs
+        // to get "older" -- its age is tracked by having a bunch of
+        // '*' symbols after it (one '|' for each generation older than one)
+        outputString += "!*";
+        // any other "*"s after it will just be passed through as normal
+        if (debug) console.log("Replacing ! with !*");
+        
+      } else {
+        
+        for(const replacement of replacements) {
+          if (replacement.findString === token) {
+            matched = true;
+            outputString += replacement.newString;
+            if (debug) console.log("Replacing " + replacement.findString + " with " + replacement.newString);
+            break;
+          }  
+        }
+        if (! matched) {
+          if (debug) console.log("Adding " + token + " as is")
+          outputString += token; 
+        }
       }
-      if (! matched) outputString += token;
     }
+    
+    if (debug) {
+      console.log("Final expansion: ");
+      console.log(outputString);
+    }
+    
     return outputString;
   }
+  
   
   /*
     Utility function for converting to radians to make the math easier
@@ -148,7 +183,8 @@ class LSystem extends Component {
     var newColor = "#000000";
     
     // For each character in the string
-    for(const c of instructions) {
+    for (var i = 0; i < instructions.length; i++) {
+      const c = instructions.charAt(i);
       
       // If we want this to be 'colorful' then just for variety, 
       // let's add a random color (in the blue/green
@@ -171,6 +207,27 @@ class LSystem extends Component {
           color: newColor,
         }));
         
+      } else if (c === '!') {
+        // If it's an exclamation point, we need to find out how big it's
+        // supposed to be depending on how many "*"s come after it
+        var n = 1;
+        while (i + n < instructions.length && instructions.charAt(i + n) === '*') {
+          n += 1;
+        }
+        // And skootch forward to the end of the "*"s (less one, because the
+        // loop will add one to us regardless)
+        i = i + n - 1;
+        
+        // And finally, add a line of the appropriate size
+        const point1 = new Immutable.Map({x: currentX, y: currentY,});
+        currentX = currentX + step * n * Math.cos(this.toRadians(currentAngle));
+        currentY = currentY - step * n * Math.sin(this.toRadians(currentAngle));
+        const point2 = new Immutable.Map({x: currentX, y: currentY,});
+        
+        turtleLines.lines = turtleLines.lines.push(Immutable.Map({
+          line: Immutable.List([point1, point2]), 
+          color: newColor,
+        }));
         
       } else if (c === '+') {
         // If it's a turn, change the angle

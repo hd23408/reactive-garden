@@ -7,13 +7,13 @@ class Home extends Component {
     super(props)
   
     this.initialState = {
-      // Binary tree
+      // 'Thorny bush'
       rule: {
-        angle: '25',
-        step: '4',
+        angle: '6',
+        step: '25',
         axiom: 'F',
-        replacements: '(G = GG), (F = G[+F]-F)',
-        loops: '7',
+        replacements: '(F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)',
+        loops: '3',
         startX: '300',
         startY: '600'
       }
@@ -33,8 +33,8 @@ class Home extends Component {
     return (
     <div>
       <div className="container">
-        <Form handleSubmit={this.handleSubmit} rule={rule}/>
-        <LSystem rule={rule} />
+        <Form handleSubmit={this.handleSubmit} rule={rule} />
+        <LSystem rule={rule} colorful="true"/>
       </div>
     </div>
     )

@@ -87,6 +87,22 @@ const Organisms = Immutable.Map(
           loops: '4'
         }
       }
+    ).set("thornyBush",
+      {
+        resources: {
+          nitrogen: '-1',
+          oxygen: '+1',
+          carbonDioxide: '-1'
+          
+        },
+        rules: {
+          angle: '6',
+          step: '5',
+          axiom: 'F',
+          replacements: '(F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)',
+          loops: '3'
+        }
+      }
     )
 
 export default Organisms;

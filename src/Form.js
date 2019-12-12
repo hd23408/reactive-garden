@@ -51,6 +51,9 @@ class Form extends Component {
           <li>'F' and 'G' each draw a single line segment</li>
           <li>'+' and '-' rotate the turtle to the left and right respectively (by the defined angle)</li>
           <li>'[' and ']' store and recall a particular XY coordinate for the turtle (i.e. allow the turtle to return to a previous location)</li>
+          <li>'!' will draw a line segment that is larger if it's older, by a factor of how many generations old it is. In other words, 
+            a '!' that is added to the output string in the first loop will be 6 times longer than a '!' that's added to the 
+            output string in the sixth loop.</li> 
           <li>'X' and 'Y' are no-ops and are used as placeholders in the rules</li>
           <li>All other characters are ignored</li>
           </ul>
@@ -142,6 +145,18 @@ class Form extends Component {
           <li>Step Size: 7</li>
           <li>Loops: 6</li>
           <li>Initial X: 10</li>
+          <li>Initial Y: 600</li>
+        </ul>
+      </li>
+      
+      <li>Thorny bush:
+        <ul>
+          <li>Axiom: F</li>
+          <li>Replacement Rules: (F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)</li>
+          <li>Angle: 6</li>
+          <li>Step Size: 25</li>
+          <li>Loops: 3</li>
+          <li>Initial X: 300</li>
           <li>Initial Y: 600</li>
         </ul>
       </li>

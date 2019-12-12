@@ -31,7 +31,7 @@ class Garden extends Component {
       .push(Object.assign({}, Organisms.get("binaryTree").rules, {startX: '540', startY: '240'}))
       
       .push(Object.assign({}, Organisms.get("binaryTree").rules, {startX: '60', startY: '360'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '180', startY: '360'}))
+      .push(Object.assign({}, Organisms.get("thornyBush").rules, {startX: '180', startY: '360'}))
       .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '300', startY: '360'}))
       .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '420', startY: '330'}))
       .push(Object.assign({}, Organisms.get("algae").rules, {startX: '540', startY: '360'}))
@@ -39,7 +39,7 @@ class Garden extends Component {
       .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '60', startY: '450'}))
       .push(Object.assign({}, Organisms.get("bush").rules, {startX: '180', startY: '480'}))
       .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '300', startY: '450'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '420', startY: '480'}))
+      .push(Object.assign({}, Organisms.get("thornyBush").rules, {startX: '420', startY: '480'}))
       .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '540', startY: '480'}))
       
       .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '60', startY: '570'}))
