@@ -181,6 +181,18 @@ class Form extends Component {
         </ul>
       </li>
       
+      <li>Thistle:
+        <ul>
+          <li>Axiom: !!GF</li>
+          <li>Replacement Rules: (F=GGG-[-F+F+F]+[+F-F+F])</li>
+          <li>Angle: 20</li>
+          <li>Step Size: 8</li>
+          <li>Loops: 5</li>
+          <li>Initial X: 300</li>
+          <li>Initial Y: 600</li>
+        </ul>
+      </li>
+      
       <li>Thorny bush:
         <ul>
           <li>Axiom: F</li>

@@ -217,8 +217,8 @@ class LSystem extends Component {
         currentY = currentY - step * Math.sin(this.toRadians(currentAngle));
         const point2 = new Immutable.Map({x: currentX, y: currentY,});
         
-        if (c === 'F' && fColor != 'RANDOM') newColor = fColor;
-        if (c === 'G' && gColor != 'RANDOM') newColor = gColor;
+        if (c === 'F' && fColor !== 'RANDOM') newColor = fColor;
+        if (c === 'G' && gColor !== 'RANDOM') newColor = gColor;
         
         turtleLines.lines = turtleLines.lines.push(Immutable.Map({
           line: Immutable.List([point1, point2]), 
@@ -236,7 +236,7 @@ class LSystem extends Component {
         // loop will add one to us regardless)
         i = i + n - 1;
         
-        if (bangColor != 'RANDOM') newColor = bangColor;
+        if (bangColor !== 'RANDOM') newColor = bangColor;
         
         // And finally, add a line of the appropriate size
         const point1 = new Immutable.Map({x: currentX, y: currentY,});

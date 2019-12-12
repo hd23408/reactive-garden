@@ -7,17 +7,17 @@ class Home extends Component {
     super(props)
   
     this.initialState = {
-      // 'Thorny bush'
+      // 'Thistle'
       rule: {
-        angle: '6',
-        step: '25',
-        axiom: 'F',
-        replacements: '(F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)',
-        loops: '3',
+        angle: '20',
+        step: '8',
+        axiom: '!!GF',
+        replacements: '(F=GGG-[-F+F+F]+[+F-F+F])',
+        loops: '5',
         startX: '300',
         startY: '600',
         fColor: '#ff3399',
-        gColor: '#000099',
+        gColor: '#336600',
         bangColor: '#336600'
       }
     }
