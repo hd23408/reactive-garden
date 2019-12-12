@@ -11,7 +11,10 @@ class Form extends Component {
       replacements: props.rule.replacements,
       loops: props.rule.loops,
       startX: props.rule.startX,
-      startY: props.rule.startY
+      startY: props.rule.startY,
+      fColor: props.rule.fColor,
+      gColor: props.rule.gColor,
+      bangColor: props.rule.bangColor,
     }
 
     this.state = this.initialState
@@ -36,7 +39,10 @@ class Form extends Component {
       replacements,
       loops,
       startX,
-      startY } = this.state;
+      startY,
+      fColor,
+      gColor,
+      bangColor } = this.state;
   
     return (
       
@@ -60,6 +66,9 @@ class Form extends Component {
         </li>
         <li>PLEASE don't use more than 6 recursions!</li>
         <li>If you're having trouble seeing the entire resulting drawing, try reducing the "Step Size" to make it smaller</li>
+        <li>You can also use the "F Color", "G Color" and "'!' Color" fields to set colors for the various letters. If using hex colors,
+          please include the "#" at the beginning! (Set these to the string 'random' if you want it to just
+          choose some random colors from the blue-green spectrum for each line.)</li>
         <li>NOTE: INPUTS ARE NOT CURRENTLY BEING SANITIZED! If you get an error, probably it's a parsing issue. Check your rules in particular.</li>
         </ul>
       </div>
@@ -126,6 +135,29 @@ class Form extends Component {
           name="startY"
           size="5"
           value={startY}
+          onChange={this.handleChange} />
+          
+        <br />
+        <label>'F' Color</label>
+        <input
+          type="text"
+          name="fColor"
+          size="8"
+          value={fColor}
+          onChange={this.handleChange} />
+        <label>'G' Color</label>
+        <input
+          type="text"
+          name="gColor"
+          size="8"
+          value={gColor}
+          onChange={this.handleChange} />
+        <label>'!' Color</label>
+        <input
+          type="text"
+          name="bangColor"
+          size="8"
+          value={bangColor}
           onChange={this.handleChange} />
           
         <br />

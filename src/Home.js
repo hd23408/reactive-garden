@@ -15,7 +15,10 @@ class Home extends Component {
         replacements: '(F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)',
         loops: '3',
         startX: '300',
-        startY: '600'
+        startY: '600',
+        fColor: '#ff3399',
+        gColor: '#000099',
+        bangColor: '#336600'
       }
     }
     

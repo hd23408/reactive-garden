@@ -14,6 +14,9 @@ class LSystem extends Component {
         angle: The angle to turn when turning
         startX: The X position at which to start drawing
         startY: The Y position at which to start drawing
+        fColor,
+        gColor,
+        bangColor: The color codes to use for F, G, and ! lines respectively (defaults to "random")
         grow: Boolean saying whether to draw the growing process or jump straight to the final design
     */
     super(props);
@@ -164,6 +167,18 @@ class LSystem extends Component {
     const currentRule = this.props.rule;
     const colorful = ('colorful' in this.props && this.props.colorful.toLowerCase() === 'true');
     
+    var fColor = "random";
+    if ('fColor' in currentRule) fColor = currentRule.fColor;
+    fColor = fColor.toUpperCase();
+    
+    var gColor = "random";
+    if ('gColor' in currentRule) gColor = currentRule.gColor;
+    gColor = gColor.toUpperCase();
+    
+    var bangColor = "random";
+    if ('bangColor' in currentRule) bangColor = currentRule.bangColor;
+    bangColor = bangColor.toUpperCase();
+    
     var currentAngle = 90;
     var currentX = Number(currentRule.startX);
     var currentY = Number(currentRule.startY);
@@ -184,15 +199,15 @@ class LSystem extends Component {
     
     // For each character in the string
     for (var i = 0; i < instructions.length; i++) {
-      const c = instructions.charAt(i);
+      const c = instructions.charAt(i).toUpperCase();
       
       // If we want this to be 'colorful' then just for variety, 
       // let's add a random color (in the blue/green
       // colorspace) to each line we draw.
       // TODO: Make this ombre as it recurses or something clever like that
       if (colorful) {
-        newColor = "#00" + String(colorSeed).padStart(4, '0');
         colorSeed = Math.floor(Math.random() * Math.floor(9999));
+        newColor = "#00" + String(colorSeed).padStart(4, '0');
       }
       
       if (c === 'F' || c === 'G') {
@@ -201,6 +216,9 @@ class LSystem extends Component {
         currentX = currentX + step * Math.cos(this.toRadians(currentAngle));
         currentY = currentY - step * Math.sin(this.toRadians(currentAngle));
         const point2 = new Immutable.Map({x: currentX, y: currentY,});
+        
+        if (c === 'F' && fColor != 'RANDOM') newColor = fColor;
+        if (c === 'G' && gColor != 'RANDOM') newColor = gColor;
         
         turtleLines.lines = turtleLines.lines.push(Immutable.Map({
           line: Immutable.List([point1, point2]), 
@@ -217,6 +235,8 @@ class LSystem extends Component {
         // And skootch forward to the end of the "*"s (less one, because the
         // loop will add one to us regardless)
         i = i + n - 1;
+        
+        if (bangColor != 'RANDOM') newColor = bangColor;
         
         // And finally, add a line of the appropriate size
         const point1 = new Immutable.Map({x: currentX, y: currentY,});
