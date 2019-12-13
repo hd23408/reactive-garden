@@ -28,8 +28,14 @@ class Form extends Component {
     })
   }
   
+  fillRules = newRule => {
+    this.setState(newRule
+    , () => this.submitForm());
+    
+  }
+  
   submitForm = () => {
-    this.props.handleSubmit(this.state)
+    this.props.handleSubmit(this.state);
   }
   
   render() {
@@ -46,9 +52,9 @@ class Form extends Component {
   
     return (
       
+    <div>
       <div className="instructions">
-      <h3>Instructions</h3>
-      <div>
+        <h3>Instructions</h3>
         To run an L-System, enter the required information and press "submit". Some notes:
         <ul>
         <li>The "Replacement Rule" should consist one or more comma-separated replacement rules, of the format "( X = Y )" -- see examples, below</li>
@@ -73,191 +79,279 @@ class Form extends Component {
         </ul>
       </div>
       
-      <hr />
-      
-      <h3>L-System rules</h3>
-      <form>
-        <label>Axiom (initial string)</label>
-        <input
-          type="text"
-          name="axiom"
-          size="10"
-          value={axiom}
-          onChange={this.handleChange} />
+      <div className="instructions">
         
-        <br />
-        <label>Replacement Rules</label>
-        <input
-          type="text"
-          name="replacements"
-          size="50"
-          value={replacements}
-          onChange={this.handleChange} />
+        <h3>L-System rules</h3>
+        <form>
+          <label>Axiom (initial string)</label>
+          <input
+            type="text"
+            name="axiom"
+            size="10"
+            value={axiom}
+            onChange={this.handleChange} />
+          
+          <br />
+          <label>Replacement Rules</label>
+          <input
+            type="text"
+            name="replacements"
+            size="50"
+            value={replacements}
+            onChange={this.handleChange} />
+          
+          <br />
+          <label>Angle for Turns</label>
+          <input
+            type="text"
+            name="angle"
+            size="5"
+            value={angle}
+            onChange={this.handleChange} />
+          <br />
+          <label>Step Size (length of line)</label>
+          <input
+            type="text"
+            name="step"
+            size="5"
+            value={step}
+            onChange={this.handleChange} />
+          <br />
+          <label>Loops (number of recursions)</label>
+          <input
+            type="text"
+            name="loops"
+            size="5"
+            value={loops}
+            onChange={this.handleChange} />
+          <br />
+          <label>Initial X Position</label>
+          <input
+            type="text"
+            name="startX"
+            size="5"
+            value={startX}
+            onChange={this.handleChange} />
+          <label>Initial Y Position</label>
+          <input
+            type="text"
+            name="startY"
+            size="5"
+            value={startY}
+            onChange={this.handleChange} />
+          <br />
+          <label>'F' Color</label>
+          <input
+            type="text"
+            name="fColor"
+            size="8"
+            value={fColor}
+            onChange={this.handleChange} />
+          <label>'G' Color</label>
+          <input
+            type="text"
+            name="gColor"
+            size="8"
+            value={gColor}
+            onChange={this.handleChange} />
+          <label>'!' Color</label>
+          <input
+            type="text"
+            name="bangColor"
+            size="8"
+            value={bangColor}
+            onChange={this.handleChange} />
+          <br />
+          <input type="button" value="Submit" onClick={this.submitForm} />
+        </form>
+      </div>
+      
+      <div className="examples">
+        <h3>Examples</h3>
+        <div>
+        Click on the name to try it out!
+        <ul className="columns">
+        <li>
+        <button onClick={() => this.fillRules({
+          axiom: "F-G-G",
+          replacements: "(F = F-G+F+G-F), (G = GG)",
+          angle: "120",
+          step: "7",
+          loops: "6",
+          startX: "10",
+          startY: "600",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Sierpinski triangle</strong></button>
+          <ul>
+            <li>Axiom: F-G-G</li>
+            <li>Replacement Rules: (F = F-G+F+G-F), (G = GG)</li>
+            <li>Angle: 120</li>
+            <li>Step Size: 7</li>
+            <li>Loops: 6</li>
+            <li>Initial X: 10</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
         
-        <br />
-        <label>Angle for Turns</label>
-        <input
-          type="text"
-          name="angle"
-          size="5"
-          value={angle}
-          onChange={this.handleChange} />
-          
-        <br />
-        <label>Step Size (length of line)</label>
-        <input
-          type="text"
-          name="step"
-          size="5"
-          value={step}
-          onChange={this.handleChange} />
-          
-        <br />
-        <label>Loops (number of recursions)</label>
-        <input
-          type="text"
-          name="loops"
-          size="5"
-          value={loops}
-          onChange={this.handleChange} />
-          
-        <br />
-        <label>Initial X Position</label>
-        <input
-          type="text"
-          name="startX"
-          size="5"
-          value={startX}
-          onChange={this.handleChange} />
-        <label>Initial Y Position</label>
-        <input
-          type="text"
-          name="startY"
-          size="5"
-          value={startY}
-          onChange={this.handleChange} />
-          
-        <br />
-        <label>'F' Color</label>
-        <input
-          type="text"
-          name="fColor"
-          size="8"
-          value={fColor}
-          onChange={this.handleChange} />
-        <label>'G' Color</label>
-        <input
-          type="text"
-          name="gColor"
-          size="8"
-          value={gColor}
-          onChange={this.handleChange} />
-        <label>'!' Color</label>
-        <input
-          type="text"
-          name="bangColor"
-          size="8"
-          value={bangColor}
-          onChange={this.handleChange} />
-          
-        <br />
-        <input type="button" value="Submit" onClick={this.submitForm} />
-      </form>
-      
-      <hr />
-      
-      <h3>Examples</h3>
-      <div>
-      <ul>
-      <li>Sierpinski triangle:
-        <ul>
-          <li>Axiom: F-G-G</li>
-          <li>Replacement Rules: (F = F-G+F+G-F), (G = GG)</li>
-          <li>Angle: 120</li>
-          <li>Step Size: 7</li>
-          <li>Loops: 6</li>
-          <li>Initial X: 10</li>
-          <li>Initial Y: 600</li>
+        <li><button onClick={() => this.fillRules({
+          axiom: "!!GF",
+          replacements: "(F=GGG-[-F+F+F]+[+F-F+F])",
+          angle: "20",
+          step: "8",
+          loops: "5",
+          startX: "300",
+          startY: "600",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Thistle</strong></button>
+          <ul>
+            <li>Axiom: !!GF</li>
+            <li>Replacement Rules: (F=GGG-[-F+F+F]+[+F-F+F])</li>
+            <li>Angle: 20</li>
+            <li>Step Size: 8</li>
+            <li>Loops: 4</li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
+        
+        <li><button onClick={() => this.fillRules({
+          axiom: "F",
+          replacements: "(F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)",
+          angle: "6",
+          step: "25",
+          loops: "3",
+          startX: "300",
+          startY: "600",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Thorny bush</strong></button>
+          <ul>
+            <li>Axiom: F</li>
+            <li>Replacement Rules: (F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)</li>
+            <li>Angle: 6</li>
+            <li>Step Size: 25</li>
+            <li>Loops: 3</li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
+        
+        <li><button onClick={() => this.fillRules({
+          axiom: "F",
+          replacements: "(F = G[+F][-F]GF), (G = GG)",
+          angle: "25",
+          step: "4",
+          loops: "6",
+          startX: "300",
+          startY: "600",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Berry bush</strong></button>
+          <ul>
+            <li>Axiom: F</li>
+            <li>Replacement Rules: (F = G[+F][-F]GF), (G = GG)</li>
+            <li>Angle: 25</li>
+            <li>Step Size: 4</li>
+            <li>Loops: 6</li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
+        
+         <li><button onClick={() => this.fillRules({
+          axiom: "X",
+          replacements: "(X = F+[[X]-X]-F[-FX]+X), (F = FF)",
+          angle: "25",
+          step: "3",
+          loops: "6",
+          startX: "300",
+          startY: "600",
+          fColor: "#336600",
+          gColor: "#336600",
+        })}><strong>Fractal plant</strong></button>
+          <ul>
+            <li>Axiom: X</li>
+            <li>Replacement Rules: (X = F+[[X]-X]-F[-FX]+X), (F = FF)</li>
+            <li>Angle: 25</li>
+            <li>Step Size: 3</li>
+            <li>Loops: 6</li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
+        
+        <li><button onClick={() => this.fillRules({
+          axiom: "F",
+          replacements: "(G = GG), (F = G[+F]-F)",
+          angle: "25",
+          step: "4",
+          loops: "7",
+          startX: "300",
+          startY: "600",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Binary tree</strong></button>
+          <ul>
+            <li>Axiom: F</li>
+            <li>Replacement Rules: (G = GG), (F = G[+F]-F)</li>
+            <li>Angle: 25</li>
+            <li>Step Size: 4</li>
+            <li>Loops: 7</li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
+        
+        <li><button onClick={() => this.fillRules({
+          axiom: "F",
+          replacements: "(F = F+F-F-F+F)",
+          angle: "90",
+          step: "4",
+          loops: "4",
+          startX: "300",
+          startY: "600",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Koch curve</strong></button>
+          <ul>
+            <li>Axiom: F</li>
+            <li>Replacement Rules: (F = F+F-F-F+F)</li>
+            <li>Angle: 90</li>
+            <li>Step Size: 4</li>
+            <li>Loops: 4</li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 600</li>
+          </ul>
+        </li>
+        
+        <li><button onClick={() => this.fillRules({
+          axiom: "FX",
+          replacements: "(X = X+YF+), (Y = -FX-Y)",
+          angle: "90",
+          step: "4",
+          loops: "12",
+          startX: "300",
+          startY: "200",
+          fColor: "#ff3399",
+          gColor: "#336600",
+        })}><strong>Dragon curve</strong></button>
+          <ul>
+            <li>Axiom: FX</li>
+            <li>Replacement Rules: (X = X+YF+), (Y = -FX-Y)</li>
+            <li>Angle: 90</li>
+            <li>Step Size: 4</li>
+            <li>Loops: 12 <i>(Dragons get special dispensation for extra loops)</i></li>
+            <li>Initial X: 300</li>
+            <li>Initial Y: 200</li>
+          </ul>
+        </li>
+        
         </ul>
-      </li>
-      
-      <li>Thistle:
-        <ul>
-          <li>Axiom: !!GF</li>
-          <li>Replacement Rules: (F=GGG-[-F+F+F]+[+F-F+F])</li>
-          <li>Angle: 20</li>
-          <li>Step Size: 8</li>
-          <li>Loops: 5</li>
-          <li>Initial X: 300</li>
-          <li>Initial Y: 600</li>
-        </ul>
-      </li>
-      
-      <li>Thorny bush:
-        <ul>
-          <li>Axiom: F</li>
-          <li>Replacement Rules: (F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)</li>
-          <li>Angle: 6</li>
-          <li>Step Size: 25</li>
-          <li>Loops: 3</li>
-          <li>Initial X: 300</li>
-          <li>Initial Y: 600</li>
-        </ul>
-      </li>
-      
-      <li>Fractal plant:
-        <ul>
-          <li>Axiom: X</li>
-          <li>Replacement Rules: (X = F+[[X]-X]-F[-FX]+X), (F = FF)</li>
-          <li>Angle: 25</li>
-          <li>Step Size: 3</li>
-          <li>Loops: 6</li>
-          <li>Initial X: 200</li>
-          <li>Initial Y: 600</li>
-        </ul>
-      </li>
-      
-      <li>Binary tree:
-        <ul>
-          <li>Axiom: F</li>
-          <li>Replacement Rules: (G = GG), (F = G[+F]-F)</li>
-          <li>Angle: 25</li>
-          <li>Step Size: 4</li>
-          <li>Loops: 7</li>
-          <li>Initial X: 300</li>
-          <li>Initial Y: 600</li>
-        </ul>
-      </li>
-      
-      
-      <li>Koch curve
-        <ul>
-          <li>Axiom: F</li>
-          <li>Replacement Rules: (F = F+F-F-F+F)</li>
-          <li>Angle: 90</li>
-          <li>Step Size: 4</li>
-          <li>Loops: 4</li>
-          <li>Initial X: 300</li>
-          <li>Initial Y: 600</li>
-        </ul>
-      </li>
-      
-      
-      <li>Dragon curve
-        <ul>
-          <li>Axiom: FX</li>
-          <li>Replacement Rules: (X = X+YF+), (Y = -FX-Y)</li>
-          <li>Angle: 90</li>
-          <li>Step Size: 4</li>
-          <li>Loops: 12 <i>(Dragons get special dispensation for extra loops)</i></li>
-          <li>Initial X: 300</li>
-          <li>Initial Y: 200</li>
-        </ul>
-      </li>
-      
-      </ul>
+        </div>
       </div>
-      </div>
+    </div>
     );
   }
 }

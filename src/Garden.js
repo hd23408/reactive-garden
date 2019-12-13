@@ -7,7 +7,25 @@ import Organisms from './Organisms'
 class Garden extends Component {
   constructor(props) {
     super(props)
+
+  
+    this.initialState = {
+      organisms: Immutable.List(),
+    }
+  
+    this.state = this.initialState
+  }
+ 
+  componentDidMount() {
+    this.shuffle();
+  }
+  
+  shuffle = () => {
+    const allOrgs = Organisms.toList();
+    const numOrgs = allOrgs.size;
     
+    var newOrganisms = Immutable.List();
+        
     /*
     The drawArea is 600x600, and we want to divide it into
     25 squares. Therefore, each organism should take up the following "plots":
@@ -15,54 +33,35 @@ class Garden extends Component {
     0-120|240, 121-240|240, 241-360|240, 361-480|240, 481-600|240
     etc.
     */
-  
-    this.initialState = {
-      organisms: Immutable.List()
-      .push(Object.assign({}, Organisms.get("binaryTree").rules, {startX: '60', startY: '120'}))
-      .push(Object.assign({}, Organisms.get("bush").rules, {startX: '180', startY: '120'}))
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '300', startY: '90'}))
-      .push(Object.assign({}, Organisms.get("algae").rules, {startX: '420', startY: '120'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '540', startY: '120'}))
-      
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '60', startY: '240'}))
-      .push(Object.assign({}, Organisms.get("binaryTree").rules, {startX: '180', startY: '240'}))
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '300', startY: '210'}))
-      .push(Object.assign({}, Organisms.get("algae").rules, {startX: '420', startY: '240'}))
-      .push(Object.assign({}, Organisms.get("binaryTree").rules, {startX: '540', startY: '240'}))
-      
-      .push(Object.assign({}, Organisms.get("binaryTree").rules, {startX: '60', startY: '360'}))
-      .push(Object.assign({}, Organisms.get("thornyBush").rules, {startX: '180', startY: '360'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '300', startY: '360'}))
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '420', startY: '330'}))
-      .push(Object.assign({}, Organisms.get("algae").rules, {startX: '540', startY: '360'}))
-      
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '60', startY: '450'}))
-      .push(Object.assign({}, Organisms.get("bush").rules, {startX: '180', startY: '480'}))
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '300', startY: '450'}))
-      .push(Object.assign({}, Organisms.get("thornyBush").rules, {startX: '420', startY: '480'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '540', startY: '480'}))
-      
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '60', startY: '570'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '180', startY: '600'}))
-      .push(Object.assign({}, Organisms.get("dragon").rules, {startX: '300', startY: '570'}))
-      .push(Object.assign({}, Organisms.get("algae").rules, {startX: '420', startY: '600'}))
-      .push(Object.assign({}, Organisms.get("fractalPlant").rules, {startX: '540', startY: '600'}))
-      
+    
+    for (var x = 60; x <= 540; x += 120) {
+      for (var y = 120; y <= 600; y += 120) {
+        var randomIndex = Math.floor(Math.random() * Math.floor(numOrgs));
+        newOrganisms = newOrganisms.push(Object.assign({}, allOrgs.get(randomIndex).rules, {startX: x, startY: y}));
+      }
     }
-  
-    this.state = this.initialState
+    this.setState({
+      organisms: newOrganisms,
+    });
+    
   }
+  
   
   render() {
     const organisms = this.state.organisms;
     
     return (
     <div>
+      <div className="button">
+        <button onClick={this.shuffle}>Shuffle</button>
+      </div>
       <div className="container">
       {organisms.map((rule, i) => (
-        <LSystem rule={rule} grow="0" colorful="true"/>
+        <LSystem key={i} rule={rule} grow="0" colorful="true"/>
       ))}
       </div>
+      
+      
 
     </div>
     )

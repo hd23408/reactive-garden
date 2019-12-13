@@ -13,7 +13,7 @@ class Home extends Component {
         step: '8',
         axiom: '!!GF',
         replacements: '(F=GGG-[-F+F+F]+[+F-F+F])',
-        loops: '5',
+        loops: '4',
         startX: '300',
         startY: '600',
         fColor: '#ff3399',
