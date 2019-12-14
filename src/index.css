@@ -3,10 +3,13 @@ body {
   margin: 20px;
 }
 
-.button { 
-  float: left;
+.hidden { 
+  display: none; 
 }
-.drawArea {
+
+/* --- Various div classes --- */
+
+div.drawArea {
   width: 600px;
   height: 600px;
   border: 1px solid black;
@@ -18,11 +21,7 @@ body {
   clear: left;
 }
 
-.hidden { 
-  display: none; 
-}
-
-.instructions {
+div.instructions {
   width: 500px;
   border: 1px solid black;
   padding: 15px;
@@ -32,53 +31,59 @@ body {
   clear: right;
 }
 
-.examples {
-  width: 650px;
+div.examples {
+  width: 570px;
   border: 1px solid black;
   padding: 15px;
-  margin-right: 100px;
-  margin-top: 10px;
+  margin-left: 25px;
+  margin-top: 610px;
   float: left;
   clear: left;
 }
+
+/* --- Input form and example buttons --- */
 
 form input {
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;
 }
-
 form input[type=button] {
   margin-left: 100px;
   margin-top: 20px;
   border: 3px solid black;
   font-weight: bold;
-  
 }
-
 form label {
   color: gray;
 }
+
+
+ul.columns {
+  column-count: 3;
+  list-style-type: none;
+}
+ul.columns button {
+  margin-top: 15px;
+  font-size: 16px;
+}
+div.button { 
+  float: left;
+}
+
+/* --- Turtle-related classes --- */
 
 .path {
   fill: none;
   stroke-width: 2px;
   stroke-linejoin: crop;
   stroke-linecap: round;
-  
 }
 
-ul.columns {
-  column-count: 3;
-  list-style-type: none;
-}
-
-ul.columns button {
-  margin-left: 10px;
-  margin-top: 15px;
-  font-size: 16px;
-}
 .drawing {
-  width: 100%;
-  height: 100%;
+  width: 600px;
+  height: 600px;
+  cursor: crosshair;
+  position: absolute;
+  float: left;
 }

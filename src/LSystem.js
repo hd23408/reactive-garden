@@ -17,7 +17,7 @@ class LSystem extends Component {
         fColor,
         gColor,
         bangColor: The color codes to use for F, G, and ! lines respectively (defaults to "random")
-        grow: Boolean saying whether to draw the growing process or jump straight to the final design
+        currentRule: Boolean saying whether to draw the growing process or jump straight to the final design
     */
     super(props);
     
@@ -33,6 +33,7 @@ class LSystem extends Component {
         needsToGrow: For complicated React reasons, a boolean indicating whether or not
             we've gone through the "growing" render process for this particular L-System
     */
+    
     this.state = {
       turtleInstructions: Immutable.List(),
       turtleLines: Immutable.List(),
@@ -48,18 +49,15 @@ class LSystem extends Component {
   drawLSystem() {
     const currentRule = this.props.rule;  // The information about how to build the system
     var instructions = currentRule.axiom; // The starting point
-    var addGrowSteps = true; // Whether or not to add all of the "steps" to show "growth"
+    var addGrowSteps = ('addGrowSteps' in currentRule && 
+      currentRule.addGrowSteps); // Whether or not to add all of the "steps" to show "growth"
     var replacements = []; // The actual replacement rules to perform (a list of objects  
                            // with "findString" and "newString" keys)
-                           
-    if ('grow' in this.props) addGrowSteps = 
-      (this.props.grow.toLowerCase() === 'true'); // Whether or not to draw the "growth" of the organism
       
     const debug = false; // Will output to console.log with replacement string information
     
     // Parse the replacement instructions
-        
-    for(const replacement of currentRule.replacements.split(',')) {
+    for (const replacement of currentRule.replacements.split(',')) {
       const rule = replacement.split('=');
       const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
       replacements.push(subst);
@@ -149,10 +147,13 @@ class LSystem extends Component {
   
   
   /*
-    Utility function for converting to radians to make the math easier
+    Utility functions to make the math easier
   */
   toRadians(angle) {
     return angle * (Math.PI / 180);
+  }
+  randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
   
   /*
@@ -162,98 +163,123 @@ class LSystem extends Component {
     process in order to be visible
   */
   runTurtle(item) {
-
+    // Get the base, constant information about this rule
     const instructions = item;
     const currentRule = this.props.rule;
-    const colorful = ('colorful' in this.props && this.props.colorful.toLowerCase() === 'true');
+    const ruleAngle = Number(currentRule.angle);
+    const ruleStep = Number(currentRule.step);
     
-    var fColor = "random";
+    // Set our initial colors
+    var fColor = "RANDOM";
     if ('fColor' in currentRule) fColor = currentRule.fColor;
     fColor = fColor.toUpperCase();
-    
-    var gColor = "random";
+    var gColor = "RANDOM";
     if ('gColor' in currentRule) gColor = currentRule.gColor;
     gColor = gColor.toUpperCase();
-    
-    var bangColor = "random";
+    var bangColor = "RANDOM";
     if ('bangColor' in currentRule) bangColor = currentRule.bangColor;
     bangColor = bangColor.toUpperCase();
     
+    // Set our initial angle and X/Y coordinates
     var currentAngle = 90;
     var currentX = Number(currentRule.startX);
     var currentY = Number(currentRule.startY);
     var locations = Immutable.Stack();
     
     // This structure is what we'll ultimately add to this.state.turtleLines;
-    // note that it's hidden by default
+    // Note that it's hidden by default in the CSS (the "grow" function shows it)
     var turtleLines = {
-      visibility: "hidden drawArea",
+      visibility: "hidden drawing",
       lines: Immutable.List(),
     };
     
-    const angle = Number(currentRule.angle);
-    const step = Number(currentRule.step);
+    // Initial values for variables that we'll use in the loop
+    var stepColor = "#000000";
+    var stepSize = ruleStep;
+    var turnAngle = ruleAngle;
+    var turnDirection = '+';
     
-    var colorSeed = 1;
-    var newColor = "#000000";
-    
-    // For each character in the string
+    // Okay, now loop over each character in the string
     for (var i = 0; i < instructions.length; i++) {
       const c = instructions.charAt(i).toUpperCase();
       
-      // If we want this to be 'colorful' then just for variety, 
-      // let's add a random color (in the blue/green
-      // colorspace) to each line we draw.
-      // TODO: Make this ombre as it recurses or something clever like that
-      if (colorful) {
-        colorSeed = Math.floor(Math.random() * Math.floor(9999));
-        newColor = "#00" + String(colorSeed).padStart(4, '0');
-      }
-      
-      if (c === 'F' || c === 'G') {
-        // If it's an "F" or a "G", add a line and move the turtle
-        const point1 = new Immutable.Map({x: currentX, y: currentY,});
-        currentX = currentX + step * Math.cos(this.toRadians(currentAngle));
-        currentY = currentY - step * Math.sin(this.toRadians(currentAngle));
-        const point2 = new Immutable.Map({x: currentX, y: currentY,});
+      // F and G mean "draw the turtle one interval"
+      if (c === 'F' || c === 'G' || c === '!') {
         
-        if (c === 'F' && fColor !== 'RANDOM') newColor = fColor;
-        if (c === 'G' && gColor !== 'RANDOM') newColor = gColor;
+        // Set the color
+        if (c === 'F') {
+          stepColor = fColor;
+        } else if (c === 'G') {
+          stepColor = gColor;
+        } else if (c ==='!') {
+          stepColor = bangColor;
+        }
+        if (stepColor === 'RANDOM') {
+          stepColor = "#00" + String(this.randomInteger(0, 9999)).padStart(4, '0');
+        }
         
-        turtleLines.lines = turtleLines.lines.push(Immutable.Map({
-          line: Immutable.List([point1, point2]), 
-          color: newColor,
-        }));
+        // Set the length; start with what the rule says
+        stepSize = ruleStep;
         
-      } else if (c === '!') {
+        // Assuming it's not a "!" (we handle !s differently, below),
+        // Set the step size based on what the "wrongStepChance"
+        // is set to. (If the step size is supposed to be "wrong",
+        // the set it to a random size between 1 and twice the current step.)
+        if (c !== '!' && Math.random() < currentRule.wrongStepChance) {
+          stepSize = this.randomInteger(1, (2 * ruleStep));
+        }
+        
         // If it's an exclamation point, we need to find out how big it's
         // supposed to be depending on how many "*"s come after it
-        var n = 1;
-        while (i + n < instructions.length && instructions.charAt(i + n) === '*') {
-          n += 1;
-        }
-        // And skootch forward to the end of the "*"s (less one, because the
-        // loop will add one to us regardless)
-        i = i + n - 1;
+        if (c === '!') {
+          var n = 1;
+          while (i + n < instructions.length && instructions.charAt(i + n) === '*') n++;
+          // Skootch forward to the end of the "*"s (less one, because the
+          // loop will add one to us regardless).
+          i = i + n - 1;
+          
+          // Okay, now we've moved our "cursor" through the instructions 
+          // to the appropriate place, and 'n' contains the number of "step sizes" 
+          // to move; multiply the original "rule" step size by n for this line.
+          stepSize = ruleStep * n;
+        }  
         
-        if (bangColor !== 'RANDOM') newColor = bangColor;
-        
-        // And finally, add a line of the appropriate size
+        // FINALLY! Add a line and move the turtle
         const point1 = new Immutable.Map({x: currentX, y: currentY,});
-        currentX = currentX + step * n * Math.cos(this.toRadians(currentAngle));
-        currentY = currentY - step * n * Math.sin(this.toRadians(currentAngle));
+        currentX = currentX + stepSize * Math.cos(this.toRadians(currentAngle));
+        currentY = currentY - stepSize * Math.sin(this.toRadians(currentAngle));
         const point2 = new Immutable.Map({x: currentX, y: currentY,});
         
         turtleLines.lines = turtleLines.lines.push(Immutable.Map({
           line: Immutable.List([point1, point2]), 
-          color: newColor,
+          color: stepColor,
         }));
         
-      } else if (c === '+') {
-        // If it's a turn, change the angle
-        currentAngle += angle; // turn left
-      } else if (c === '-') {
-        currentAngle -= angle; // turn right)
+      } else if (c === '+' || c === '-') {
+        
+        // Adjust the angle based on the rule's "wrongAngleChance")
+        turnAngle = ruleAngle;
+        if (Math.random() < currentRule.wrongAngleChance) {
+          // Like with the step size, make the "wrong angle" anywhere
+          // from 0 to twice the defined angle
+          turnAngle = this.randomInteger(0, (2 * ruleAngle));
+        }
+        
+        // Start with the prescribed turn direction
+        // ('+' is 'left'; '-' is 'right')
+        turnDirection = c;
+        // Then, the direction should be reversed some of the time
+        if (Math.random() < currentRule.wrongTurnChance) {
+          if (turnDirection === '+') turnDirection = '-';
+          else turnDirection = '+';
+        }
+        
+        if (turnDirection === '+') {
+          currentAngle += turnAngle;
+        } else {
+          currentAngle -= turnAngle;
+        }
+        
       } else if (c === '[') {
         // Push current value of X,Y from locations
         const currPos = {X: currentX, Y: currentY, A: currentAngle};
@@ -297,9 +323,9 @@ class LSystem extends Component {
     for (var i = 0; i < turtleLines.size; i++) {  
       
       if (i !== 0) {
-        turtleLines.get(i-1).visibility = "hidden drawArea";
+        turtleLines.get(i-1).visibility = "hidden drawing";
       }
-      turtleLines.get(i).visibility = "drawArea";
+      turtleLines.get(i).visibility = "drawing";
       this.setState(prevState => {
         return {
           turtleLines: turtleLines,
@@ -319,6 +345,7 @@ class LSystem extends Component {
   // sorry, React developers)
   UNSAFE_componentWillMount() {
     this.drawLSystem();
+    
   }
   
   // And, after everything is drawn and
