@@ -7,7 +7,30 @@ import Immutable from 'immutable'
 // 
 // myOrganism = Object.assign({}, Organisms.get("algae").rules, {startX: '60', startY: '120'}) 
 const Organisms = Immutable.Map(
-    ).set("binaryTree",
+    ).set("Sierpinski Triangle",
+      {
+        resources: {
+          nitrogen: '-1',
+          oxygen: '+1',
+          carbonDioxide: '-1'
+          
+        },
+        rules: {
+          angle: '120',
+          step: '7',
+          axiom: 'F-G-G',
+          replacements: '(F = F-G+F+G-F), (G = GG)',
+          loops: '6',
+          fColor: 'RANDOM',
+          gColor: 'RANDOM',
+          bangColor: 'RANDOM',
+          startX: "10",
+          startY: "600",
+          littleStep: '6',
+          littleLoops: '3',
+        }
+      }
+    ).set("Binary Tree",
       {
         resources: {
           nitrogen: '-1',
@@ -17,15 +40,20 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '25',
-          step: '1',
+          step: '4',
           axiom: 'F',
           replacements: '(G = GG), (F = G[+F]-F)',
-          loops: '6',
-          fColor: '#ff00ff',
-          gColor: '#006600',
+          loops: '7',
+          fColor: '#ff3399',
+          gColor: '#336600',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "600",
+          littleStep: '2',
+          littleLoops: '5',
         }
       }
-    ).set("algae",
+    ).set("Algae",
       {
         resources: {
           nitrogen: '-1',
@@ -35,13 +63,20 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '20',
-          step: '3',
+          step: '15',
           axiom: 'F',
           replacements: '(F = F[+F]F[-F]F)',
-          loops: '3'
+          loops: '3',
+          fColor: 'RANDOM',
+          gColor: 'RANDOM',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "600",
+          littleStep: '3',
+          littleLoops: '3',
         }
       }
-    ).set("berryBush",
+    ).set("Berry Bush",
       {
         resources: {
           nitrogen: '-1',
@@ -51,15 +86,20 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '25',
-          step: '2',
+          step: '4',
           axiom: 'F',
           replacements: '(F = G[+F][-F]GF), (G = GG)',
-          loops: '4',
-          fColor: '#660066',
-          gColor: '#446600',
+          loops: '6',
+          fColor: '#ff3399',
+          gColor: '#336600',
+          bangColor: '#009973',
+          startX: "300",
+          startY: "600",
+          littleStep: '3',
+          littleLoops: '4',
         }
       }
-    ).set("bush",
+    ).set("Little Bush",
       {
         resources: {
           nitrogen: '-1',
@@ -68,14 +108,21 @@ const Organisms = Immutable.Map(
           
         },
         rules: {
-          angle: '25',
-          step: '5',
+          angle: '23',
+          step: '20',
           axiom: 'X',
           replacements: '(X = F-[[X]+X]+F[-FX]+X)',
-          loops: '4'
+          loops: '5',
+          fColor: 'RANDOM',
+          gColor: 'RANDOM',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "600",
+          littleStep: '6',
+          littleLoops: '4',
         }
       }
-    ).set("dragon",
+    ).set("Dragon Curve",
       {
         resources: {
           nitrogen: '-1',
@@ -85,15 +132,20 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '90',
-          step: '3',
+          step: '4',
           axiom: 'FX',
           replacements: '(X = X+YG+), (Y = -FX-Y), (G = F)',
-          loops: '8',
-          fColor: '#990000',
-          gColor: '#ff6699',
+          loops: '12',
+          fColor: '#ac3939',
+          gColor: '#e60000',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "200",
+          littleStep: '3',
+          littleLoops: '8',
         }
       }
-    ).set("fractalPlant",
+    ).set("Fractal Plant",
       {
         resources: {
           nitrogen: '-1',
@@ -103,15 +155,20 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '25',
-          step: '2',
+          step: '7',
           axiom: 'X',
           replacements: '(X = F+[[X]-X]-F[-GX]+X), (F = FF), (G = GG)',
-          loops: '4',
-          fColor: '#004d1a',
-          gColor: '#00e64d'
+          loops: '5',
+          fColor: '#336600',
+          gColor: '#336600',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "600",
+          littleStep: '2',
+          littleLoops: '4',
         }
       }
-    ).set("thornyBush",
+    ).set("Thorny Bush",
       {
         resources: {
           nitrogen: '-1',
@@ -121,16 +178,21 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '6',
-          step: '5',
+          step: '25',
           axiom: 'F',
           replacements: '(F = ![-----F][+++++++F]+![----F][+++++++F]+![---F][+++++F]+!F)',
           loops: '3',
-          fColor: '#cccc00',
-          bangColor: '#339966',
+          fColor: '#99e6ff',
+          gColor: 'RANDOM',
+          bangColor: 'RANDOM',
+          startX: "400",
+          startY: "600",
+          littleStep: '4',
+          littleLoops: '3',
           
         }
       }
-    ).set("bushyTree",
+    ).set("Bushy Tree",
       {
         resources: {
           nitrogen: '-1',
@@ -140,15 +202,20 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '15',
-          step: '4',
-          axiom: 'F',
+          step: '9',
+          axiom: '!F',
           replacements:'(F=FF-[-F+F+F]+[+F-G-G]), (G=F)',
-          loops: '3',
+          loops: '4',
           fColor: '#996600',
           gColor: '#ffaa80',
+          bangColor: '#996600',
+          startX: "300",
+          startY: "600",
+          littleStep: '3',
+          littleLoops: '3',
         }
       }
-    ).set("thistle",
+    ).set("Thistle",
       {
         resources: {
           nitrogen: '-1',
@@ -158,13 +225,63 @@ const Organisms = Immutable.Map(
         },
         rules: {
           angle: '20',
-          step: '3',
-          axiom: 'GF',
+          step: '8',
+          axiom: '!!GF',
           replacements:'(F=GGG-[-F+F+F]+[+F-F+F])',
-          loops: '3',
-          fColor: '#3399ff',
-          gColor: '#009973',
-          bangColor: '#009973',
+          loops: '4',
+          fColor: '#ff3399',
+          gColor: '#336600',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "600",
+          littleStep: '2',
+          littleLoops: '3',
+        }
+      }
+    ).set("Koch Curve",
+      {
+        resources: {
+          nitrogen: '-1',
+          oxygen: '+1',
+          carbonDioxide: '-1'
+          
+        },
+        rules: {
+          angle: '90',
+          step: '6',
+          axiom: '-F',
+          replacements:'(F = F+F-F-F+F)',
+          loops: '4',
+          fColor: 'RANDOM',
+          gColor: 'RANDOM',
+          bangColor: 'RANDOM',
+          startX: "50",
+          startY: "600",
+          littleStep: '3',
+          littleLoops: '3',
+        }
+      }
+     ).set("Kolam",
+      {
+        resources: {
+          nitrogen: '-1',
+          oxygen: '+1',
+          carbonDioxide: '-1'
+          
+        },
+        rules: {
+          angle: "15",
+          step: "10",
+          axiom: "GGGG",
+          replacements: "(G = X+X+X+X+X+X+), (X = [F+F+F+F[---X-Y]+++++F++++++++F-F-F-F]), (Y = [F+F+F+F[---Y]+++++F++++++++F-F-F-F])",
+          loops: '5',
+          fColor: '#ff944d',
+          gColor: '#00ace6',
+          bangColor: 'RANDOM',
+          startX: "300",
+          startY: "300",
+          littleStep: '5',
+          littleLoops: '2',
         }
       }
     )

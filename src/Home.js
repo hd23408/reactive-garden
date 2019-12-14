@@ -1,25 +1,21 @@
 import React, { Component } from 'react'
 import LSystem from './LSystem'
 import Form from './Form'
+import Organisms from './Organisms'
 
 class Home extends Component {
   constructor(props) {
     super(props)
   
+  
+  
+  
+    const allOrgs = Organisms.toList();
+    const numOrgs = allOrgs.size;
+    var randomIndex = Math.floor(Math.random() * Math.floor(numOrgs));
+    var rules = allOrgs.get(randomIndex).rules;
     this.initialState = {
-      // 'Thistle'
-      rule: {
-        angle: '20',
-        step: '8',
-        axiom: '!!GF',
-        replacements: '(F=GGG-[-F+F+F]+[+F-F+F])',
-        loops: '4',
-        startX: '300',
-        startY: '600',
-        fColor: '#ff3399',
-        gColor: '#336600',
-        bangColor: '#336600'
-      }
+      rule: rules,
     }
     
     this.state = this.initialState

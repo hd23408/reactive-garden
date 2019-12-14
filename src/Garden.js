@@ -32,12 +32,16 @@ class Garden extends Component {
     0-120|120, 121-240|120, 241-360|120, 361-480|120, 481-600|120
     0-120|240, 121-240|240, 241-360|240, 361-480|240, 481-600|240
     etc.
+    
+    TODO: Adjust this appro0priately for things that should start 
+    in the middle of their plots, like dragons
     */
     
     for (var x = 60; x <= 540; x += 120) {
       for (var y = 120; y <= 600; y += 120) {
         var randomIndex = Math.floor(Math.random() * Math.floor(numOrgs));
-        newOrganisms = newOrganisms.push(Object.assign({}, allOrgs.get(randomIndex).rules, {startX: x, startY: y}));
+        var rules = allOrgs.get(randomIndex).rules;
+        newOrganisms = newOrganisms.push(Object.assign({}, rules, {startX: x, startY: y, step: rules['littleStep'], loops: rules['littleLoops']}));
       }
     }
     this.setState({
