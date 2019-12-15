@@ -9,6 +9,27 @@ body {
 
 /* --- Various div classes --- */
 
+div.footnote {
+  font-size: 12px;
+  position: absolute;
+  float: left;
+  display: inline;
+  color: gray;
+}
+div.gardenPlot div.footnote {
+  margin-left: -17px;
+  margin-top: 105px;
+}
+div.gardenPlot {
+  border: 1px dashed #f2f2f2;
+  width: 120px;
+  height: 120px;
+  float: left;
+  display: inline;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
 div.drawArea {
   width: 600px;
   height: 600px;
@@ -41,6 +62,44 @@ div.examples {
   clear: left;
 }
 
+div.pagination {
+  float: right;  
+}
+div.pagination button {
+  font-size: 16px;
+  margin-right: 10px;
+  margin-top: 25px;
+  font-weight: bold;
+}
+div.pagination button.selected {
+  border: none;
+  font-weight: bold;
+}
+
+/* --- Intro classes --- */
+
+div.slide {
+  width: 600px;
+  border: 1px solid black;
+  padding: 15px;
+  margin-right: 100px;
+  margin-top: 10px;
+  float: left;
+  clear: left;
+  font: 18px "Century Gothic", Futura, sans-serif;
+}
+
+div.slide ol.zero_indexed {
+  list-style: none;
+  counter-reset: loop-counter -1;
+}
+
+div.slide ol.zero_indexed li::before {
+  counter-increment: loop-counter;
+  content: counter(loop-counter) ". ";
+}
+
+
 /* --- Input form and example buttons --- */
 
 form input {
@@ -59,31 +118,37 @@ form label {
 }
 
 
-ul.columns {
+ul.columns, ol.columns {
   column-count: 3;
+  color: gray;
+}
+
+ul.columns {
   list-style-type: none;
 }
 ul.columns button {
   margin-top: 15px;
   font-size: 16px;
 }
-div.button { 
-  float: left;
+div.button button { 
+  margin-top: 15px;
+  margin-left: 50px;
+  font-size: 16px;
+  color: gray;
 }
 
 /* --- Turtle-related classes --- */
 
-.path {
+path.path {
   fill: none;
   stroke-width: 2px;
   stroke-linejoin: crop;
   stroke-linecap: round;
 }
 
-.drawing {
-  width: 600px;
+svg.drawing {
+  width: 100%;
   height: 600px;
-  cursor: crosshair;
-  position: absolute;
   float: left;
 }
+

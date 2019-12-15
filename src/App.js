@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 import Home from './Home'
 import Garden from './Garden'
+import Intro from './Intro'
 
 class App extends Component {
   
@@ -14,24 +15,25 @@ class App extends Component {
     
     return (
     <Router>
-    <p>Welcome to my garden! This is a safe space for L-System plants to grow and flourish. 
-    &nbsp; <Link to="/">Home</Link> | <Link to="/garden">Garden</Link></p>
+    <p>Welcome to my garden! This is a friendly place for happy L-System plants to grow and flourish. 
+    &nbsp; <Link to="/intro">Intro</Link> | <Link to="/">Home</Link> | <Link to="/garden">Garden</Link></p>
     
             
         <Switch>
+          <Route path="/intro">
+            <Intro />
+          </Route>
           <Route path="/garden">
             <Garden />
           </Route>
           <Route path="/">
             <Home />
           </Route>
+          
         </Switch>
       
     </Router>
     );
   }
-  
-  
-  
 }
 export default App
