@@ -12,8 +12,12 @@ class Home extends Component {
     var randomIndex = Math.floor(Math.random() * Math.floor(numOrgs));
     var rules = allOrgs.get(randomIndex).rules;
     
+    // On the first draw, always follow the rules
     this.initialState = {
-      rule: Object.assign({}, rules, {addGrowSteps: true}) 
+      rule: Object.assign({}, rules, {addGrowSteps: true,
+          wrongStepChance: '0.00',
+          wrongTurnChance: '0.00',
+          wrongAngleChance: '0.00',}) 
     }
     
     this.state = this.initialState

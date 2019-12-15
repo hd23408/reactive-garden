@@ -88,9 +88,9 @@ class Form extends Component {
                       fColor: key[1]['rules']['fColor'],
                       gColor: key[1]['rules']['gColor'],
                       bangColor: key[1]['rules']['bangColor'],
-                      wrongStepChance: key[1]['rules']['wrongStepChance'],
-                      wrongAngleChance: key[1]['rules']['wrongAngleChance'],
-                      wrongTurnChance: key[1]['rules']['wrongTurnChance'],
+                      wrongStepChance: '0.00',
+                      wrongAngleChance: '0.00',
+                      wrongTurnChance: '0.00',
                       addGrowSteps: true,
                     })}>
                   <strong>{key[0]}</strong>
@@ -237,11 +237,11 @@ class Form extends Component {
           <li>'!' will draw a line segment that is larger if it's older, by a factor of how many generations old it is. In other words, 
             a '!' that is added to the output string in the first loop will be 6 times longer than a '!' that's added to the 
             output string in the sixth loop.</li> 
-          <li>'X' and 'Y' are no-ops and are used as placeholders in the rules</li>
-          <li>All other characters are ignored</li>
+          <li>'X', 'Y', and all other characters are no-ops and are used as placeholders in the rules for more complicated expansions 
+            (see "Christmas Tree" for an example)</li>
           </ul>
         </li>
-        <li>PLEASE don't use more than 6 recursions!</li>
+        <li>Don't use too many recursions, or the JavaScript will freak out. Limiting to 6 loops is a good rule of thumb.</li>
         <li>If you're having trouble seeing the entire resulting drawing, try reducing the "Step Size" to make it smaller</li>
         <li>You can also use the "F Color", "G Color" and "'!' Color" fields to set colors for the various letters. If using hex colors,
           please include the "#" at the beginning! (Set these to the string 'random' if you want it to just

@@ -16,38 +16,92 @@ class Garden extends Component {
     this.state = this.initialState
   }
  
-  componentDidMount() {
-    this.shuffle();
+ 
+  // Before everything loads, grab 25
+  // random plants.
+  // (This method is deprecated, but it's what we need -- 
+  // sorry, React developers)
+  UNSAFE_componentWillMount() {
+    this.shuffle(); 
+  }
+  
+  /*
+    Utility method for sleeping (ugh javascript)
+  */
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+  
+  /*
+    Kick off some "waving" in the breeze...
+  */
+  triggerBreeze = () => {
+    (async () => {
+        console.log('function2');
+        await this.wave(1);
+    })();
+  }
+
+  async wave(iteration) {
+    console.log(iteration);
+    this.forceUpdate();
+    if (iteration < 20) {
+      await this.sleep(10);
+      
+      var newOrganisms = Immutable.List();
+      for (var i=0; i < 25; i++) {
+        var org = this.state.organisms.get(i);
+        newOrganisms = newOrganisms.push(Object.assign({}, org, {
+              wrongStepChance: '0.00',
+              wrongTurnChance: '0.00',
+              wrongAngleChance: '0.05',
+              randomNumber: Math.random(),
+          }));
+      }
+      this.setState({
+        organisms: newOrganisms,
+      }, () => this.wave(++iteration));
+    }
+    
   }
   
   shuffle = () => {
-    const allOrgs = Organisms.toList();
+    // The first 6 ""organisms" are too non-plantlike to use in a garden
+    const allOrgs = Immutable.List(Organisms).slice(6); 
     const numOrgs = allOrgs.size;
     
     var newOrganisms = Immutable.List();
         
     /*
-    The drawArea is 600x600, and we want to divide it into
-    25 squares. Therefore, each organism should take up the following "plots":
-    0-120|120, 121-240|120, 241-360|120, 361-480|120, 481-600|120
-    0-120|240, 121-240|240, 241-360|240, 361-480|240, 481-600|240
-    etc.
-    
-    TODO: Adjust this appro0priately for things that should start 
-    in the middle of their plots, like dragons
+    The drawArea is 600x600, and we're dividing it into
+    25 squares.
     */
     
-    for (var x = 60; x <= 540; x += 120) {
-      for (var y = 120; y <= 600; y += 120) {
+    for (var x = 0; x <= 4; x++) {
+      for (var y = 0; y <= 4; y++) {
         var randomIndex = Math.floor(Math.random() * Math.floor(numOrgs));
-        var rules = allOrgs.get(randomIndex).rules;
-        newOrganisms = newOrganisms.push(Object.assign({}, rules, {startX: x, startY: y, step: rules['littleStep'], loops: rules['littleLoops']}));
+        
+        var rules = allOrgs.get(randomIndex)[1].rules;
+        
+        // Each organism has its own starting point that
+        // will center it a garden bit; this is relative to
+        // a 600x600 grid for the main screen, so we need to
+        // scale it down for this smaller "garden plot"
+        var startX = (rules['startX'] / 600) * 120;
+        var startY = (rules['startY'] / 600) * 120;
+        
+        newOrganisms = newOrganisms.push(Object.assign({}, rules, {
+            startX: startX, 
+            startY: startY,
+            step: rules['gardenStep'], 
+            loops: rules['gardenLoops'],
+            name: allOrgs.get(randomIndex)[0],
+        }));
       }
     }
     this.setState({
       organisms: newOrganisms,
     });
-    
   }
   
   
@@ -56,17 +110,28 @@ class Garden extends Component {
     
     return (
     <div>
-      <div className="button">
-        <button onClick={this.shuffle}>Shuffle</button>
-      </div>
-      <div className="container">
+      <div className="drawArea">
       {organisms.map((rule, i) => (
-        <LSystem key={i} rule={rule} grow="0" colorful="true"/>
+        <div key={i} className="gardenPlot">
+          <LSystem key={i} rule={rule} />
+          <div className="footnote">{i+1}</div>
+        </div>
       ))}
       </div>
       
+      <div className="instructions">
+      <ol className="columns">
+      {organisms.map((rule, i) => (
+        <li key={i}>{rule.name}</li>
+      ))}
+      </ol>
+      <div className="button">
+        <button onClick={this.shuffle}>Shuffle</button>
+        <button onClick={this.triggerBreeze}>Breeze</button>
+      </div>
       
-
+      </div>
+      
     </div>
     )
     

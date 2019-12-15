@@ -260,9 +260,9 @@ class LSystem extends Component {
         // Adjust the angle based on the rule's "wrongAngleChance")
         turnAngle = ruleAngle;
         if (Math.random() < currentRule.wrongAngleChance) {
-          // Like with the step size, make the "wrong angle" anywhere
-          // from 0 to twice the defined angle
-          turnAngle = this.randomInteger(0, (2 * ruleAngle));
+          // Add between -10 and 10 degrees so as not to mess 
+          // with it TOO much
+          turnAngle = this.randomInteger(-10, 10);
         }
         
         // Start with the prescribed turn direction
@@ -310,7 +310,7 @@ class LSystem extends Component {
     Function that will gradually show each of the sets of lines (the
     svg objects) such that the system appears to "grow"
   */
-  async grow(){
+  async grow() {
     const turtleLines = this.state.turtleLines;
     
     this.setState(prevState => {

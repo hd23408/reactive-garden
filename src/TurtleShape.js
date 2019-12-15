@@ -7,13 +7,11 @@ class TurtleShape extends Component {
     const turtleLines = this.props.turtleLines;
     const visibility = this.props.visibility;
     return (
-      <div>
       <svg className={visibility}>
         {turtleLines.map((lines, index) => (
           <TurtleLine key={index} line={lines.get("line")} color={lines.get("color")} />
         ))}
       </svg>
-      </div>
     );
     
   }
