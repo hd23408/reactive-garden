@@ -45,8 +45,8 @@ class Garden extends Component {
   async wave(iteration) {
     console.log(iteration);
     this.forceUpdate();
-    if (iteration < 20) {
-      await this.sleep(10);
+    if (iteration < 50) {
+      await this.sleep(100);
       
       var newOrganisms = Immutable.List();
       for (var i=0; i < 25; i++) {
