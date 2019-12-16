@@ -8,6 +8,13 @@ class Outro extends Component {
       <div className="selected slide" id="1" ref="1">
         
         <h2>What else?</h2>
+        
+        <p>
+        <a href="https://en.wikipedia.org/wiki/File:Fractal_tree_(Plate_b_-_2).jpg" target="_new"><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Fractal_tree_%28Plate_b_-_2%29.jpg" alt="3D L-system tree from Wikipedia" /></a>
+        </p>
+        
+        
+        
         <p>
         There are plenty of additional things that could be done with this application,
         and with L-systems in general. They include (but are not limited to):
@@ -22,7 +29,9 @@ class Outro extends Component {
         <ul>
         <li><a href="http://laurenslapre.nl/lapre_004.htm" target="_new">Lparser</a>, a software package for 3D L-systems</li>
         <li><a href="https://commons.wikimedia.org/wiki/File:Dragon_trees.jpg" target="_new">These pictures</a> from Wikipedia</li>
+        <li><a href="https://www.sidefx.com/docs/houdini/nodes/sop/lsystem.html" target="_new">L-systems in Houdini</a></li>
         </ul>
+        
         
         <h5>Variations of L-systems</h5>
         <p>
@@ -45,13 +54,10 @@ class Outro extends Component {
         <ul>
         <li><a href="http://algorithmicbotany.org/" target="_new">The University of Calgary's Algorithmic Botany Department</a></li>
         <li><a href="https://www.frontiersin.org/articles/10.3389/fpls.2012.00076/full" target="_new">L-Py: an L-system simulation framework for modeling plant architecture development based on a dynamic language</a></li>
-        <li><a href="https://www.sidefx.com/docs/houdini/nodes/sop/lsystem.html" target="_new">L-systems in Houdini</a></li>
-        
+        <li><a href="https://www.reddit.com/r/proceduralgeneration/" target="_new">The "Procedural Generation" subreddit</a></li>
         </ul>
         
-        
       </div>
-      
     </div>
     )
   };

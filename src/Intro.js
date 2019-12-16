@@ -54,8 +54,8 @@ class Intro extends Component {
         and a mechanism for translating the generated strings into geometric structures."</em>
         </p>
         <p> 
-        You can think of it kind of like a computer language. In particular, it does stuff with
-        replacements and recursion.
+        You can think of it kind of like a computer programming language. In particular, it does a
+        lot of stuff with replacements and recursion.
         </p>
         <p>
         L-systems were developed in 1968 by Aristid Lindenmayer, 
@@ -64,20 +64,9 @@ class Intro extends Component {
         model the growth processes of plant development. 
         </p>
         <p>
-        Yeah, that's right, a botanist basically invented a computer language
+        Yeah, that's right, a botanist invented a programming language
         so that he could describe algae.
         </p>
-        <p>
-        Side note: L-systems can be used for describing 3-dimensional systems (leading to 3-dimensional
-        drawings), but I stuck to 2D images. Check out the following sites for some cool
-        examples of 3D images, though!
-        
-        </p>
-        <ul>
-        <li><a href="http://laurenslapre.nl/lapre_004.htm" target="_new">Lparser</a>, a software package for 3D L-systems</li>
-        <li><a href="https://commons.wikimedia.org/wiki/File:Dragon_trees.jpg" target="_new">These pictures</a> from Wikipedia</li>
-        <li><a href="https://commons.wikimedia.org/wiki/File:Dragon_trees.jpg" target="_new">These pictures</a> from Wikipedia</li>
-        </ul>
         
         <div className="footnote">
         [1] <em><a href="https://www.sciencedirect.com/science/article/pii/S0022519369800305" target="_new">Computing ability of a developmental model for filamentous organisms</a></em> 
