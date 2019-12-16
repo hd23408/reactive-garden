@@ -1,6 +1,6 @@
 ### Reactive Garden
 
-This is an exploration in L-Systems using React. 
+This is an exploration in L-Systems using React. It's deployed at https://hd23408.github.io/reactive-garden/ if you want to go check it out!
 
 ### Build Info
 
