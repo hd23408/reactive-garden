@@ -1,8 +1,8 @@
-#Reactive Garden
+### Reactive Garden
 
 This is an exploration in L-Systems using React. 
 
-##Build Info
+### Build Info
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
