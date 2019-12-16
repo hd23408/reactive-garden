@@ -15,7 +15,7 @@ class App extends Component {
   render() {
     
     return (
-    <Router>
+    <Router basename='/reactive-garden/'>
     <p>Welcome to my garden! This is a friendly place for happy L-system plants to grow and flourish. 
     &nbsp; <Link to="/intro">Intro</Link> | <Link to="/">Home</Link> | <Link to="/garden">Garden</Link> | <Link to="/outro">Outro</Link></p>
     
