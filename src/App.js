@@ -8,6 +8,7 @@ import {
 import Home from './Home'
 import Garden from './Garden'
 import Intro from './Intro'
+import Outro from './Outro'
 
 class App extends Component {
   
@@ -15,8 +16,8 @@ class App extends Component {
     
     return (
     <Router>
-    <p>Welcome to my garden! This is a friendly place for happy L-System plants to grow and flourish. 
-    &nbsp; <Link to="/intro">Intro</Link> | <Link to="/">Home</Link> | <Link to="/garden">Garden</Link></p>
+    <p>Welcome to my garden! This is a friendly place for happy L-system plants to grow and flourish. 
+    &nbsp; <Link to="/intro">Intro</Link> | <Link to="/">Home</Link> | <Link to="/garden">Garden</Link> | <Link to="/outro">Outro</Link></p>
     
             
         <Switch>
@@ -25,6 +26,9 @@ class App extends Component {
           </Route>
           <Route path="/garden">
             <Garden />
+          </Route>
+          <Route path="/outro">
+            <Outro />
           </Route>
           <Route path="/">
             <Home />

@@ -31,7 +31,7 @@ class LSystem extends Component {
                   these are (somewhat confusingly) a Map with keys "line" (X/Y coordinates as a List)
                   and "color" (a color for that particular line)
         needsToGrow: For complicated React reasons, a boolean indicating whether or not
-            we've gone through the "growing" render process for this particular L-System
+            we've gone through the "growing" render process for this particular L-system
     */
     
     this.state = {

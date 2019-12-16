@@ -101,7 +101,7 @@ class Form extends Component {
       </div>
       
       <div className="instructions">
-        <h3>L-System rules</h3>
+        <h3>L-system rules</h3>
         <form>
           <label>Axiom (initial string)</label>
           <input
@@ -226,14 +226,14 @@ class Form extends Component {
       </div>
       <div className="instructions">
         <h3>Instructions</h3>
-        To run an L-System, enter the required information and press "submit". Some notes:
+        To run an L-system, enter the required information and press "submit". Some notes:
         <ul>
         <li>The "Replacement Rule" should consist one or more comma-separated replacement rules, of the format "( X = Y )" -- see examples, below</li>
         <li>The rules use the following symbols:
           <ul>
           <li>'F' and 'G' each draw a single line segment</li>
           <li>'+' and '-' rotate the turtle to the left and right respectively (by the defined angle)</li>
-          <li>'[' and ']' store and recall a particular XY coordinate for the turtle (i.e. allow the turtle to return to a previous location)</li>
+          <li>'[' and ']' store and recall a particular XY coordinate for the turtle (i.e. allow the turtle to teleport back to a previous location)</li>
           <li>'!' will draw a line segment that is larger if it's older, by a factor of how many generations old it is. In other words, 
             a '!' that is added to the output string in the first loop will be 6 times longer than a '!' that's added to the 
             output string in the sixth loop.</li> 

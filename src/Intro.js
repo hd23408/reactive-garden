@@ -39,10 +39,10 @@ class Intro extends Component {
           <button onClick={this.turnPage} ref="page1button5" value="5">5</button>
         </div>
 
-        <h2>What is an L-System?</h2>
+        <h2>What is an L-system?</h2>
         
         <p>
-        An L-System is a parallel rewriting system, and a type of formal grammar.
+        An L-system is a parallel rewriting system, and a type of formal grammar.
         In short, it's a way of describing ... well, all sorts of stuff.<sup>1</sup>
         </p>
         <p>
@@ -67,6 +67,17 @@ class Intro extends Component {
         Yeah, that's right, a botanist basically invented a computer language
         so that he could describe algae.
         </p>
+        <p>
+        Side note: L-systems can be used for describing 3-dimensional systems (leading to 3-dimensional
+        drawings), but I stuck to 2D images. Check out the following sites for some cool
+        examples of 3D images, though!
+        
+        </p>
+        <ul>
+        <li><a href="http://laurenslapre.nl/lapre_004.htm" target="_new">Lparser</a>, a software package for 3D L-systems</li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Dragon_trees.jpg" target="_new">These pictures</a> from Wikipedia</li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Dragon_trees.jpg" target="_new">These pictures</a> from Wikipedia</li>
+        </ul>
         
         <div className="footnote">
         [1] <em><a href="https://www.sciencedirect.com/science/article/pii/S0022519369800305" target="_new">Computing ability of a developmental model for filamentous organisms</a></em> 
@@ -87,7 +98,7 @@ class Intro extends Component {
 
         <h2>How Does it Work?</h2>
         <p>
-        Evaluating an L-System consists of two main steps:
+        Evaluating an L-system consists of two main steps:
         </p>
         <ol>
           <li>Compute a string that contains a set of instructions</li>
@@ -95,7 +106,7 @@ class Intro extends Component {
         </ol>
         <h5>Example</h5>
         <p>
-        Let's start with a vocabulary. L-System vocabularies can get
+        Let's start with a vocabulary. L-system vocabularies can get
         complicated, and different implementations use different symbols,
         but these two symbols are pretty standard:
         </p>
@@ -105,7 +116,7 @@ class Intro extends Component {
           </ul>        
         
         <p>
-        When we go to draw the L-System, we use a list of these symbols
+        When we go to draw the L-system, we use a list of these symbols
         and interpret them as instructions for drawing. For instance, the instructions 
         "F+F" mean "draw a line segment, turn, and draw another line segment." 
         </p>
@@ -126,7 +137,7 @@ class Intro extends Component {
         you went with a 90 degree angle. Heh.) But that's boring.
         </p>
         <p>
-        The thing that makes L-Systems interesting is their use of replacement rules. 
+        The thing that makes L-systems interesting is their use of replacement rules. 
         So, for instance, you could say something like this:
         </p>
           <ul>
@@ -157,7 +168,7 @@ class Intro extends Component {
 
         <h2>How Does it Work? (cont.)</h2>
         <p>
-        We just evaluated our first L-System! We started with this:
+        We just evaluated our first L-system! We started with this:
         </p>
           <ul>
             <li>Axiom: F</li>
@@ -170,7 +181,7 @@ class Intro extends Component {
         
         <h5>Drawing</h5>
         <p>
-        Okay, so in order to draw a shape for this L-System, there are a 
+        Okay, so in order to draw a shape for this L-system, there are a 
         couple additional parameters we need to specify:
         </p>
           <ul>
