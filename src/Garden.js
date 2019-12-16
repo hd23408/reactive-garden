@@ -46,7 +46,7 @@ class Garden extends Component {
     console.log(iteration);
     this.forceUpdate();
     if (iteration < 50) {
-      await this.sleep(100);
+      await this.sleep(250);
       
       var newOrganisms = Immutable.List();
       for (var i=0; i < 25; i++) {
