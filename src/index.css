@@ -1,13 +1,26 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  background-color: black;
 }
+
+
+
+a:link, a:visited, a:hover, a:active {
+  color: gray;
+}
+
 
 .hidden { 
   display: none; 
 }
 
 /* --- Various div classes --- */
+
+div {
+  color: white;
+}
+
 
 div.footnote {
   font-size: 12px;
@@ -33,7 +46,7 @@ div.gardenPlot {
 div.drawArea {
   width: 600px;
   height: 600px;
-  border: 1px solid black;
+  border: 1px solid white;
   margin-left: 25px;
   cursor: crosshair;
   position: absolute;
@@ -44,7 +57,7 @@ div.drawArea {
 
 div.instructions {
   width: 500px;
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 15px;
   margin-right: 100px;
   margin-top: 10px;
@@ -54,7 +67,7 @@ div.instructions {
 
 div.examples {
   width: 570px;
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 15px;
   margin-left: 25px;
   margin-top: 610px;
@@ -80,13 +93,14 @@ div.pagination button.selected {
 
 div.slide {
   width: 800px;
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 15px;
   margin-right: 100px;
   margin-top: 10px;
   float: left;
   clear: left;
   font: 18px "Century Gothic", Futura, sans-serif;
+  color: white;
 }
 
 div.slide ol.zero_indexed {
@@ -110,7 +124,7 @@ form input {
 form input[type=button] {
   margin-left: 100px;
   margin-top: 20px;
-  border: 3px solid black;
+  border: 3px solid white;
   font-weight: bold;
 }
 form label {

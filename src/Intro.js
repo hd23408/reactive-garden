@@ -137,7 +137,7 @@ class Intro extends Component {
         <p> 
         And when you evaluate it, you get this!
         </p>
-          <ol class="zero_indexed">
+          <ol className="zero_indexed">
             <li>F</li>
             <li>F+F</li>
             <li>F+F + F+F</li>
