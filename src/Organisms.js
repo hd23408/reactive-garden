@@ -113,7 +113,7 @@ const Organisms = Immutable.OrderedMap(
           angle: '60',
           step: '9',
           axiom: 'F',
-          replacements: '(F=F+G++G-F--FF-G+), (G=-F+GG++G+F--F-G)',
+          replacements: '(F = F+G++G-F--FF-G+), (G = -F+GG++G+F--F-G)',
           loops: '4',
           fColor: '#996600',
           gColor: '#ffaa80',
@@ -154,7 +154,7 @@ const Organisms = Immutable.OrderedMap(
           angle: '60',
           step: '12',
           axiom: '!X!!FF',
-          replacements: '(F=F[-F][+F][F]), (X=[+G[-G[+G]][-G[+G]]!]Y[-G[+G]!]), (Y=GGG)',
+          replacements: '(F = F[-F][+F][F]), (X = [+G[-G[+G]][-G[+G]]!]Y[-G[+G]!]), (Y = GGG)',
           loops: '5',
           fColor: '#e6e600',
           gColor: '#004d00',
@@ -174,7 +174,7 @@ const Organisms = Immutable.OrderedMap(
           angle: '25',
           step: '10',
           axiom: '!!FF',
-          replacements: '(F=F[-F][+F[+F]]![+F][-F[-F]])',
+          replacements: '(F = F[-F][+F[+F]]![+F][-F[-F]])',
           loops: '4',
           fColor: 'RANDOM',
           gColor: 'RANDOM',
@@ -295,7 +295,7 @@ const Organisms = Immutable.OrderedMap(
           angle: '15',
           step: '9',
           axiom: '!F',
-          replacements:'(F=FF-[-F+F+F]+[+F-G-G]), (G=F)',
+          replacements:'(F = FF-[-F+F+F]+[+F-G-G]), (G = F)',
           loops: '4',
           fColor: '#996600',
           gColor: '#ffaa80',
@@ -315,7 +315,7 @@ const Organisms = Immutable.OrderedMap(
           angle: '20',
           step: '8',
           axiom: '!!GF',
-          replacements:'(F=GGG-[-F+F+F]+[+F-F+F])',
+          replacements:'(F = GGG-[-F+F+F]+[+F-F+F])',
           loops: '4',
           fColor: '#ff3399',
           gColor: '#336600',
@@ -329,13 +329,14 @@ const Organisms = Immutable.OrderedMap(
           wrongAngleChance: '0.10',
         }
       }
+/*
     ).set("Christmas Tree",
       {
         rules: {
           angle: '18',
           step: '11',
           axiom: 'LSLFFF',
-          replacements:'(S=[+++G][---G]TS),(G=+H[-G]L),(H=-G[+H]L), (T=TL), (L=[-F[+F]F][+F[-F]F]F)',
+          replacements:'(S = [+++G][---G]TS),(G = +H[-G]L),(H = -G[+H]L), (T = TL), (L = [-F[+F]F][+F[-F]F]F)',
           loops: '10',
           fColor: '#004d00',
           gColor: 'RANDOM',
@@ -349,31 +350,8 @@ const Organisms = Immutable.OrderedMap(
           wrongAngleChance: '0.05',
         }
       }
-    )
-    /*
-    .set("Fern",
-      {
-        rules: {
-          angle: '18',
-          step: '11',
-          axiom: 'LSLFFF',
-          replacements:'(S=[+++G][---G]TS),(G=+H[-G]L),(H=-G[+H]L), (T=TL), (L=[-F[+F]F][+F[-F]F]F)',
-          loops: '10',
-          fColor: 'RANDOM',
-          gColor: 'RANDOM',
-          bangColor: 'RANDOM',
-          startX: "300",
-          startY: "600",
-          gardenStep: '5',
-          gardenLoops: '5',
-          wrongStepChance: '0.50',
-          wrongTurnChance: '0.00',
-          wrongAngleChance: '0.05',
-        }
-      }
-    )
-    */
-    ;
+*/
+    );
      
 
 export default Organisms;

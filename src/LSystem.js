@@ -215,7 +215,7 @@ class LSystem extends Component {
           stepColor = bangColor;
         }
         if (stepColor === 'RANDOM') {
-          stepColor = "#00" + String(this.randomInteger(0, 9999)).padStart(4, '0');
+          stepColor = "#00" + String(this.randomInteger(6666, 9999)).padStart(4, '0');
         }
         
         // Set the length; start with what the rule says

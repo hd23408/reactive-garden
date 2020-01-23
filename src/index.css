@@ -122,10 +122,19 @@ form input {
   font-weight: bold;
 }
 form input[type=button] {
-  margin-left: 100px;
+  margin-left: 50px;
   margin-top: 20px;
   border: 3px solid white;
   font-weight: bold;
+}
+form input[type=button].noIndent {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  border: 1px solid #666666;
+  font-weight: bold;
+  background: #333333;
+  color: gray;
 }
 form label {
   color: gray;

@@ -9,6 +9,7 @@ class Form extends Component {
       angle: props.rule.angle,
       step: props.rule.step,
       axiom: props.rule.axiom,
+      prevReplacements: "",
       replacements: props.rule.replacements,
       loops: props.rule.loops,
       startX: props.rule.startX,
@@ -48,10 +49,192 @@ class Form extends Component {
     }, () => this.props.handleSubmit(this.state, "false"));
   }
   
+  mutate = () => {
+    // Get the current rules and add/delete a random letter/symbol
+    const replacements = this.state.replacements;
+    const replacementArray = replacements.split(',');
+    const coinFlip = Math.floor(Math.random() * 2);
+    // Which rule do we change (if there are multiples)?
+    const ruleToChange = Math.floor(Math.random() * (replacementArray.length));
+      
+    // What are the valid characters we can add?
+    // Any of the generic ones, plus any of the characters
+    // we have expansion rules for. (Anything we don't have
+    // an expansion rule for would be a no-op.)      
+    var validCharacters = [ "+", "-", "!", "F", "G" ];
+    
+    // Result of the change
+    var newReplacements = "";
+    
+    for (const rule of replacementArray) {
+      const validChar = rule.split('=')[0].replace(/\(/,"").trim().split("");
+      validCharacters = validCharacters.concat(validChar); 
+    }
+    
+    // Uninquify the valid characters (just in case)
+    validCharacters = validCharacters.filter((item, pos) => validCharacters.indexOf(item) === pos);
+    
+
+    // Add or delete?
+    if (coinFlip === 0) {
+      // It's an add!
+      // Which character should we add?
+      const charToAdd = validCharacters[Math.floor(Math.random() * (validCharacters.length))]; 
+      
+      // Finally, parse the replacements and add this new character somewhere in the appropriate rule
+      for (var i=0; i < replacementArray.length; i++) {
+        if (i === ruleToChange) {
+          const rule = replacementArray[i].split('=');
+          const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
+          
+          const posToAdd = Math.floor(Math.random() * (subst.newString.length + 1));
+          console.log("Adding '" + charToAdd + "' at " + posToAdd + " in rule " + ruleToChange);
+          newReplacements += "(" + subst.findString + " = " + subst.newString.substr(0, posToAdd) + charToAdd + subst.newString.substr(posToAdd) + "), ";
+        } else {
+          newReplacements += replacementArray[i] + ", ";
+        }
+      }
+
+    } else {
+      // Delete!
+      // First try deleting from the rule we chose earlier
+      var deletionResult = this.deleteFromRule(replacementArray, ruleToChange, validCharacters);
+      if (! deletionResult.found) {
+        // if there's nothing left in there to delete, delete from any rule
+        for (var ruleIndex=0; ruleIndex < replacementArray.length; ruleIndex++) {
+          deletionResult = this.deleteFromRule(replacementArray, ruleIndex, validCharacters);
+          if (deletionResult.found) break;
+        }
+      }
+      newReplacements = deletionResult.newReplacements;
+    }
+    
+    // newReplacements now has a trailing ", " because of the way we built up the
+    // string -- get rid of it.
+    newReplacements = newReplacements.slice(0, -2);
+    
+    // Always force a refresh when submitting the form
+    this.setState({
+      prevReplacements: replacements,
+      replacements: newReplacements,
+      addGrowSteps: false,
+      randomNumberForFormSubmittal: Math.random(),
+    }, () => this.props.handleSubmit(this.state, "false"));
+  }
+  
+  // Deletes a random character from the specified rule in the array,
+  // if that character is one of the "valid" characters
+  deleteFromRule(replacementArray, ruleToChange, validCharacters) {
+    var newReplacements = "";
+    for (var j=0; j < replacementArray.length; j++) {
+        
+      if (j === ruleToChange) {
+        const rule = replacementArray[j].split('=');
+        const subst = {findString: rule[0].replace(/\(/,"").trim(), newString: rule[1].replace(/\)/,"").trim()};
+        const posToDelete = Math.floor(Math.random() * (subst.newString.length + 1));
+        var found = false;
+        
+        const result = this.deleteStartingAt(posToDelete, subst, newReplacements, validCharacters, ruleToChange);
+        newReplacements = result.newReplacements;
+        found = result.found;
+        
+        if (! found) {
+          // just delete the first one we find
+          const result = this.deleteStartingAt(0, subst, newReplacements, validCharacters, ruleToChange);
+          newReplacements = result.newReplacements;
+          found = result.found;
+        }
+        
+        if (! found) {
+          // I give up! This almost certainly means we're just out of stuff to delete.
+          newReplacements += replacementArray[j].trim() + ", ";
+        }
+        
+      } else {
+        newReplacements += replacementArray[j].trim() + ", ";
+      }
+    }
+    return {newReplacements: newReplacements, found: found};
+  }
+  
+  // Deletes the character at posToDelete, unless it's not a valid
+  // character, in which case it deletes the next one it finds
+  deleteStartingAt(posToDelete, subst, newReplacements, validCharacters, ruleToChange) {
+    var found = false;
+    for (var k=posToDelete; k < subst.newString.length; k++) {
+      if (validCharacters.indexOf(subst.newString.charAt(k)) > -1) {
+        console.log("Deleting '" + subst.newString.charAt(k) + "' at " + k + " in rule " + ruleToChange);
+        newReplacements += "(" + subst.findString + " = " + subst.newString.substr(0, k) + subst.newString.substr(k+1) + "), ";
+        found = true;
+        break;
+      } 
+    }
+    return {newReplacements: newReplacements, found: found};
+  }
+  
+  
+  revert = () => {
+    const prevReplacements = this.state.prevReplacements;
+    const replacements = this.state.replacements;
+    // Always force a refresh when submitting the form
+    this.setState({
+      replacements: prevReplacements,
+      prevReplacements: replacements,
+      addGrowSteps: false,
+      randomNumberForFormSubmittal: Math.random(),
+    }, () => this.props.handleSubmit(this.state, "false"));
+  }
+  
+  getLink = () => {
+    const { angle,
+      step,
+      axiom,
+      prevReplacements,
+      replacements,
+      loops,
+      startX,
+      startY,
+      fColor,
+      gColor,
+      bangColor,
+      wrongStepChance,
+      wrongTurnChance,
+      wrongAngleChance,
+      addGrowSteps } = this.state;
+    const link = window.location.origin + "/reactive-garden/home?" + 
+       "angle=" + encodeURIComponent(angle) + "&" +
+       "step=" + encodeURIComponent(step) + "&" +
+       "axiom=" + encodeURIComponent(axiom) + "&" +
+       "replacements=" + encodeURIComponent(replacements) + "&" +
+       "loops=" + encodeURIComponent(loops) + "&" +
+       "startX=" + encodeURIComponent(startX) + "&" +
+       "startY=" + encodeURIComponent(startY) + "&" +
+       "fColor=" + encodeURIComponent(fColor) + "&" +
+       "gColor=" + encodeURIComponent(gColor) + "&" +
+       "bangColor=" + encodeURIComponent(bangColor);
+       
+    console.log(wrongStepChance);
+    console.log(wrongTurnChance);
+    console.log(wrongAngleChance);
+    console.log(addGrowSteps);
+    console.log(prevReplacements);
+    
+    console.log(link);
+        
+    const el = document.createElement('textarea');
+    el.value = link;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+  }
+
   render() {
     const { angle,
       step,
       axiom,
+      prevReplacements,
       replacements,
       loops,
       startX,
@@ -79,6 +262,7 @@ class Form extends Component {
             return <li key={i}>
                    <button onClick={() => self.fillRules({
                       axiom: key[1]['rules']['axiom'],
+                      prevReplacements: "",
                       replacements: key[1]['rules']['replacements'],
                       angle: key[1]['rules']['angle'],
                       step: key[1]['rules']['step'],
@@ -110,6 +294,8 @@ class Form extends Component {
             size="10"
             value={axiom}
             onChange={this.handleChange} />
+          
+          <ShowPreviousRules prevRules={prevReplacements} onClick={this.revert} />
           
           <br />
           <label>Replacement Rules</label>
@@ -221,6 +407,8 @@ class Form extends Component {
           <label>Probability that a turn angle will be somewhat narrower or wider</label>
           <br />
           <input type="button" value="Submit" onClick={this.submitForm} />
+          <input type="button" value="Mutate" onClick={this.mutate} />
+          <input type="button" value="Get Link" onClick={this.getLink} />
             
         </form>
       </div>
@@ -256,4 +444,25 @@ class Form extends Component {
   }
 }
 
-  export default Form;
+function ShowPreviousRules(params) {
+
+  if (params.prevRules !== "") {
+    return (
+    <span>
+      <br />
+      <input className="noIndent" type="button" value="Revert to Previous" onClick={params.onClick} />
+      <input
+        type="text"
+        name="prevReplacements"
+        size="50"
+        value={params.prevRules}
+        disabled={true} />
+      
+    </span>
+    );
+  }
+  return <span />;
+}
+
+
+export default Form;

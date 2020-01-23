@@ -21,19 +21,12 @@ class App extends Component {
     
             
         <Switch>
-          <Route path="/intro">
-            <Intro />
-          </Route>
-          <Route path="/garden">
-            <Garden />
-          </Route>
-          <Route path="/outro">
-            <Outro />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-          
+          <Route path="/intro" component={Intro} />
+          <Route path="/garden" component={Garden} />
+          <Route path="/outro" component={Outro} />
+          <Route path="/" component={Home} />
+          <Route path="/home" component={Home} />
+
         </Switch>
       
     </Router>
