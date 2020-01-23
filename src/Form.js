@@ -201,7 +201,7 @@ class Form extends Component {
       wrongTurnChance,
       wrongAngleChance,
       addGrowSteps } = this.state;
-    const link = window.location.origin + "/reactive-garden/home?" + 
+    const link = window.location.origin + "/reactive-garden/?" + 
        "angle=" + encodeURIComponent(angle) + "&" +
        "step=" + encodeURIComponent(step) + "&" +
        "axiom=" + encodeURIComponent(axiom) + "&" +
