@@ -179,9 +179,7 @@ class Intro extends Component {
           </ul>        
         
         <p>
-        And once you've defined those, you just need to find a compliant turtle. <br /> 
-        <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/google/223/turtle_1f422.png"
-        alt="Turtle" width="50" /><br />
+        And once you've defined those, you just need to find a compliant turtle. 🐢<br /> 
         Tell your turtle servant to follow the instructions in your string. Again, "F" means draw a line segment (using
         the length that you specified earlier), and "+" means turn (let's say left) by the angle
         you specified.
